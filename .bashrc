@@ -54,7 +54,8 @@ _prompt_command() {
     #     fi
     # fi
 
-    PS1+="${yellow}${PWD/#$HOME/'~'} ${reset}\$ "
+    local tilde='~'
+    PS1+="${yellow}${PWD/#$HOME/$tilde} ${reset}\$ "
 }
 
 # check the window size after each command and, if necessary,
