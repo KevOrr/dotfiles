@@ -11,5 +11,5 @@
         status = auto
 
 [push]
-        default = simple
+        default = current
 
