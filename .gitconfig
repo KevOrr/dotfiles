@@ -1,6 +1,6 @@
 [user]
-	email = kevinorr54@gmail.com
-	name = Kevin Orr
+        name = Kevin Orr
+        email = kevinorr54@gmail.com
 [alias]
         lol = log --graph --decorate --pretty=oneline --abbrev-commit
         lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
@@ -11,4 +11,5 @@
         status = auto
 
 [push]
-	default = simple
+        default = simple
+
