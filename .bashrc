@@ -26,6 +26,7 @@ _prompt_command() {
     local reset='\[\e[0m\]'
     local red='\[\e[0;31m\]'
     local green='\[\e[0;32m\]'
+    local light_green='\[\e[1;32m\]'
     local yellow='\[\e[0;33m\]'
     local blue='\[\e[0;34m\]'
 
@@ -38,7 +39,7 @@ _prompt_command() {
         PS1+="$reset(venv) "
     fi
 
-    PS1+="${yellow}${USER}${reset}@${blue}${HOSTNAME%%.*}${reset} "
+    PS1+="${light_green}${USER}@${HOSTNAME%%.*}${reset} "
 
     # if [ jobs >/dev/null 2>&1 ]; then
     #     local bgjobs=$(jobs -r | wc -l | tr -d " ")
@@ -55,7 +56,7 @@ _prompt_command() {
     # fi
 
     local tilde='~'
-    PS1+="${yellow}${PWD/#$HOME/$tilde} ${reset}\$ "
+    PS1+="${blue}${PWD/#$HOME/$tilde} ${reset}\$ "
 }
 
 # check the window size after each command and, if necessary,
