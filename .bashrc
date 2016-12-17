@@ -4,6 +4,8 @@ case $- in
       *) return;;
 esac
 
+[ -f ~/.setcolors ] && ~/.setcolors
+
 [ -f ~/.bashrc_local ] && . ~/.bashrc_local
 
 # Don't put duplicate lines or lines starting with space in the history.
