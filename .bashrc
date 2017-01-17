@@ -98,6 +98,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if command -v emacs >/dev/null 2>&1; then
+    export EDITOR=emacs
+elif command -v vim >/dev/null 2>&1; then
+    export EDITOR=vim
+fi
+
 ###########
 # Aliases #
 ###########
