@@ -41,7 +41,7 @@ _prompt_command() {
         PS1+="$reset(venv) "
     fi
 
-    PS1+="${light_green}${USER}@${HOSTNAME%%.*}${reset} "
+    PS1+="${light_green}${USER}@`hostname`${reset} "
 
     # if [ jobs >/dev/null 2>&1 ]; then
     #     local bgjobs=$(jobs -r | wc -l | tr -d " ")
@@ -112,6 +112,8 @@ alias l='ls -CF'
 alias o='xdg-open'
 alias c=clear
 alias clip='xclip -selection clipboard'
+
+alias emacsclient='emacsclient -c'
 
 setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
