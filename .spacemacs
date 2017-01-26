@@ -32,11 +32,6 @@ values."
    dotspacemacs-configuration-layers
    '(
      csv
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      auto-completion
      (python :variables python-indent-offset 4)
      c-c++
@@ -302,8 +297,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  (setq-default c-project-include "")
-  )
+  (setq-default c-project-include ""))
+
 
 (defun config-after-local-variables ()
   (when (derived-mode-p 'c++-mode 'c-mode)

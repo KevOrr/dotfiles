@@ -98,10 +98,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if command -v emacs >/dev/null 2>&1; then
-    export EDITOR=emacs
-elif command -v vim >/dev/null 2>&1; then
-    export EDITOR=vim
+if [ -x /usr/bin/emacsclient ]; then
+    export EDITOR='/usr/bin/emacsclient'
+elif [ -x /usr/bin/emacs ]; then
+    export EDITOR=/usr/bin/emacs
+elif [ -x /usr/bin/vim ]; then
+    export EDITOR=/usr/bin/vim
+elif [ -x /usr/bin/nano ]; then
+    export EDITOR=/usr/bin/nano
 fi
 
 ###########
@@ -119,7 +123,7 @@ alias o='xdg-open'
 alias c=clear
 alias clip='xclip -selection clipboard'
 
-alias emacsclient='emacsclient -c'
+alias ec='emacsclient -n'
 
 setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
