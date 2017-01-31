@@ -108,6 +108,9 @@ elif [ -x /usr/bin/nano ]; then
     export EDITOR=/usr/bin/nano
 fi
 
+export SUDO_EDITOR="$EDITOR"
+export VISUAL="$EDITOR"
+
 ###########
 # Aliases #
 ###########
