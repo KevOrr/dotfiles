@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     lua
      csv
      auto-completion
      (python :variables python-indent-offset 4)
