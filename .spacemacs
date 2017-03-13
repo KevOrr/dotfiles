@@ -31,23 +31,32 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     lua
-     csv
+     sql
+     ;; util
+     ;; themes-megapack
      auto-completion
-     (python :variables python-indent-offset 4)
-     c-c++
-     ;; auto-completion
-     ;; better-defaults
-     emacs-lisp
-     common-lisp
      git
-     markdown
-     ;; org
+     org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      (syntax-checking :variables flycheck-gcc-language-standard "c++11")
+
+     ;; +lang
+     (python :variables python-indent-offset 4)
+     c-c++
+     common-lisp
+     emacs-lisp
+     java
+     ruby
+     lua
+     csv
+     octave
+     markdown
+
+     ;; stuff spacemacs recommended
+     ;; better-defaults
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -332,7 +341,11 @@ you should place your code here."
      (c++-mode . "bsd")
      (java-mode . "java")
      (awk-mode . "awk")
-     (other . "gnu")))))
+     (other . "gnu"))))
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(evil-want-Y-yank-to-eol nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
