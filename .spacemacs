@@ -51,12 +51,15 @@ values."
      (syntax-checking :variables flycheck-gcc-language-standard "c++11")
 
      ;; +lang
+     asm
      c-c++
      common-lisp
      csv
      emacs-lisp
      haskell
+     html
      java
+     javascript
      lua
      markdown
      octave
