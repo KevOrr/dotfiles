@@ -25,3 +25,15 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$PATH:$HOME/.local/bin"
 fi
 
+if [ -x /usr/bin/emacsclient ]; then
+    export EDITOR='/usr/bin/emacsclient'
+elif [ -x /usr/bin/emacs ]; then
+    export EDITOR='/usr/bin/emacs'
+elif [ -x /usr/bin/vim ]; then
+    export EDITOR='/usr/bin/vim'
+elif [ -x /usr/bin/nano ]; then
+    export EDITOR='/usr/bin/nano'
+fi
+
+export SUDO_EDITOR="$EDITOR"
+export VISUAL="$EDITOR"

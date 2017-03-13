@@ -98,19 +98,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -x /usr/bin/emacsclient ]; then
-    export EDITOR='/usr/bin/emacsclient'
-elif [ -x /usr/bin/emacs ]; then
-    export EDITOR=/usr/bin/emacs
-elif [ -x /usr/bin/vim ]; then
-    export EDITOR=/usr/bin/vim
-elif [ -x /usr/bin/nano ]; then
-    export EDITOR=/usr/bin/nano
-fi
-
-export SUDO_EDITOR="$EDITOR"
-export VISUAL="$EDITOR"
-
 ###########
 # Aliases #
 ###########
@@ -131,6 +118,7 @@ alias ecc='emacsclient -c'
 alias ecnc='emacsclient -nc'
 sudoec () { SUDO_EDITOR=emacsclient sudoedit $@; }
 sudoecc () { SUDO_EDITOR='emacsclient -c' sudoedit $@; }
+alias gdb='gdb --quiet'
 
 setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
@@ -144,4 +132,3 @@ urandpass () { head -c$(( ($1+1)/2 )) </dev/urandom | xxd -p | head -c$1 | sed  
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
