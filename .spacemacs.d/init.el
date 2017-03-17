@@ -67,6 +67,9 @@ values."
      ruby
      sql
 
+     ;; custom layers
+     monte
+
      ;; stuff spacemacs recommended
      ;; better-defaults
      ;; version-control
