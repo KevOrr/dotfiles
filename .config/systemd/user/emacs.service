@@ -2,8 +2,8 @@
 Description=Emacs Server
 
 [Service]
-Type=forking
-ExecStart=/usr/bin/emacs --daemon
+Type=simple
+ExecStart=/usr/bin/emacs
 Restart=always
 
 Environment="LANG=en_US.UTF-8 LANGUAGE=en_US"
