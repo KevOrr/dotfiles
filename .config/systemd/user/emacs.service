@@ -4,10 +4,15 @@ Description=Emacs Server
 [Service]
 Type=forking
 ExecStart=/usr/bin/emacs --daemon
+PIDFile=/run/user/1000/emacs/emacs-server.pid
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
 Restart=always
 
-Environment="LANG=en_US.UTF-8 LANGUAGE=en_US"
-Environment="PATH=/home/kevin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kevin/.local/bin"
-Environment="SHELL=/bin/bash"
-Environment="SSH_AUTH_SOCK=/run/user/1000/keyring/ssh"
-Environment="EDITOR=/usr/bin/emacsclient SUDO_EDITOR=/usr/bin/emacsclient"
+# Environment="LANG=en_US.UTF-8 LANGUAGE=en_US"
+# Environment="PATH=/home/kevin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kevin/.local/bin"
+# Environment="SHELL=/bin/bash"
+# Environment="SSH_AUTH_SOCK=/run/user/1000/keyring/ssh"
+# Environment="EDITOR=/usr/bin/emacsclient SUDO_EDITOR=/usr/bin/emacsclient"
+
+[Install]
+WantedBy=default.target

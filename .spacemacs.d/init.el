@@ -70,6 +70,10 @@ values."
      ;; custom layers
      monte
 
+     ;; +fun
+     selectric
+     emoji
+
      ;; stuff spacemacs recommended
      ;; better-defaults
      ;; version-control
@@ -322,7 +326,18 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  (setq-default c-project-include ""))
+  (setq-default c-project-include "")
+
+  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (make-directory (file-name-directory pidfile) t)
+              (with-temp-file pidfile
+                (insert (number-to-string (emacs-pid))))))
+  (add-hook 'kill-emacs-hook
+            (lambda ()
+              (when (file-exists-p pidfile)
+                (delete-file pidfile)))))
 
 
 (defun config-after-local-variables ()
