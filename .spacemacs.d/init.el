@@ -380,7 +380,13 @@ you should place your code here."
   (add-hook 'lisp-mode-hook 'evil-cleverparens-mode)
   (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode)
 
-  (add-hook 'web-mode-hook 'hungry-delete-mode))
+  (add-hook 'web-mode-hook 'hungry-delete-mode)
+
+  (setq sql-postgres-login-params
+        '((user :default "kevin")
+          (database :default "kevin")
+          (server :default "localhost")
+          (port :default 5432))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
