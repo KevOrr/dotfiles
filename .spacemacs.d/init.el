@@ -66,6 +66,7 @@ values."
      (python :variables python-indent-offset 4)
      ruby
      sql
+     yaml
 
      ;; custom layers
      monte
