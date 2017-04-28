@@ -38,3 +38,9 @@ fi
 export SUDO_EDITOR="$EDITOR"
 export VISUAL="$EDITOR"
 if [ -e /home/kevin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/kevin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
