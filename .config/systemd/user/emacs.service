@@ -3,6 +3,9 @@ Description=Emacs Server
 
 [Service]
 Type=forking
+Environment=SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+ExecStartPre=/bin/mkdir -p /run/user/1000/emacs/
+ExecStartPre=/bin/touch /run/user/1000/emacs/emacs-server.pid
 ExecStart=/bin/bash -c '. ~/.profile && /usr/bin/emacs --daemon'
 PIDFile=/run/user/1000/emacs/emacs-server.pid
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"

@@ -2,7 +2,7 @@
 Comment=Open new Emacs frame
 Terminal=false
 Name=Emacs Client
-Exec=bash -c '/usr/bin/emacsclient %F || /usr/bin/emacsclient -c %F'
+Exec=bash -c 'files="%F"; /usr/bin/emacsclient $files || /usr/bin/emacsclient -c $files'
 MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
 Type=Application
 Icon=emacs25
