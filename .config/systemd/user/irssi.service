@@ -1,0 +1,9 @@
+[Unit]
+Description=Irssi in Screen session
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/screen -Dm -S irssi /usr/bin/irssi
+
+[Install]
+WantedBy=default.target

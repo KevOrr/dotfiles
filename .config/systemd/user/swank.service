@@ -1,0 +1,10 @@
+[Unit]
+Description=SBCL Swank Server
+
+[Service]
+Type=simple
+Environment=SYSTEMD_SWANK_PORT=4005
+ExecStart=/usr/bin/sbcl --script /home/kevin/common-lisp/start-swank-server.lisp
+
+[Install]
+WantedBy=default.target
