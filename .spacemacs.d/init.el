@@ -2,6 +2,8 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; (load "~/quicklisp/slime-helper.el")
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
@@ -98,6 +100,7 @@ values."
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
+  (write-pid-file)
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration.
@@ -290,7 +293,7 @@ values."
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
-   ;; '(:relative nil
+   ;; '(:relative t
    ;;   :disabled-for-modes dired-mode
    ;;                       doc-view-mode
    ;;                       markdown-mode
@@ -349,18 +352,10 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  ;; To be set in .dir-locals.el
   (setq-default c-project-include "")
 
-  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (make-directory (file-name-directory pidfile) t)
-              (with-temp-file pidfile
-                (insert (number-to-string (emacs-pid))))))
-  (add-hook 'kill-emacs-hook
-            (lambda ()
-              (when (file-exists-p pidfile)
-                (delete-file pidfile)))))
+)
 
 
 (defun config-after-local-variables ()
@@ -409,10 +404,79 @@ you should place your code here."
  '(custom-safe-themes
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(evil-want-Y-yank-to-eol nil))
+ '(evil-want-Y-yank-to-eol nil)
+ '(org-babel-load-languages
+   (quote
+    ((python . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (lisp . t))))
+ '(org-confirm-babel-evaluate (quote my-org-confirm-babel-evaluate))
+ '(package-selected-packages
+   (quote
+    (yaml-mode pcre2el spinner alert log4e gntp org-plus-contrib markdown-mode macrostep skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode hydra parent-mode projectile request haml-mode gitignore-mode flyspell-correct pos-tip flycheck pkg-info epl flx magit magit-popup git-commit with-editor iedit smartparens paredit anzu evil goto-chg undo-tree highlight web-completion-data dash-functional tern ghc haskell-mode eclim company inf-ruby bind-map yasnippet packed anaconda-mode pythonic f dash s helm avy helm-core async auto-complete popup xterm-color ws-butler winum which-key web-mode use-package toc-org spaceline slime-company zenburn-theme yapfify x86-lookup web-beautify volatile-highlights vi-tilde-fringe uuidgen tagedit sql-indent solarized-theme smeargle slime slim-mode shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode powerline popwin pip-requirements persp-mode paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree nasm-mode multi-term move-text monokai-theme mmm-mode minitest markdown-toc magit-gitflow lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc intero info+ indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump disaster diminish define-word cython-mode csv-mode company-web company-tern company-statistics company-ghci company-ghc company-emoji company-emacs-eclim company-cabal company-c-headers company-anaconda common-lisp-snippets column-enforce-mode coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format chruby bundler bind-key auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "xdg-open")
+ '(c-basic-offset 4)
+ '(c-default-style
+   (quote
+    ((c-mode . "bsd")
+     (c++-mode . "bsd")
+     (java-mode . "java")
+     (awk-mode . "awk")
+     (other . "gnu"))))
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(magit-log-arguments (quote ("--graph" "--decorate" "-n256")))
+ '(package-selected-packages
+   (quote
+    (inf-ruby eclim ghc haskell-mode smartparens evil helm helm-core markdown-mode flycheck yasnippet magit magit-popup git-commit with-editor async js2-mode company dash window-purpose imenu-list pcache sbt-mode scala-mode meghanada zenburn-theme yapfify xterm-color x86-lookup ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sql-indent spaceline solarized-theme smeargle slime-company slim-mode shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nasm-mode multi-term move-text monokai-theme mmm-mode minitest markdown-toc magit-gitflow lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc intero info+ indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets groovy-mode groovy-imports gradle-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help ensime emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump disaster define-word cython-mode csv-mode company-web company-tern company-statistics company-ghci company-ghc company-emoji company-emacs-eclim company-cabal company-c-headers company-anaconda common-lisp-snippets column-enforce-mode coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format chruby bundler bracketed-paste auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
+
+(defun write-pid-file ()
+  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (make-directory (file-name-directory pidfile) t)
+              (with-temp-file pidfile
+                (insert (number-to-string (emacs-pid))))))
+  (add-hook 'kill-emacs-hook
+            (lambda ()
+              (when (file-exists-p pidfile)
+                (delete-file pidfile)))))
+
+(defvar my-org-babel-trusted-blocks nil)
+
+(defun my-org-confirm-babel-evaluate (lang body)
+  (let ((trusted (find (cons lang body) my-org-babel-trusted-blocks :test 'equal)))
+    (if trusted
+        nil ; Don't need to prompt
+      (if (not (y-or-n-p "Always trust this block?"))
+          t ; need to prompt, don't store in trusted
+        ;; Newly trusted, add to trusted list
+        (push (cons lang body) my-org-babel-trusted-blocks)
+        nil))))
