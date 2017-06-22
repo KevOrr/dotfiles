@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: latex algorithm header
+# key: algo-header
+# --
+#+TITLE: ${1:title}
+#+AUTHOR: Kevin Orr
+#+DATE: ${2:date}
+
+#+options: toc:nil
+#+startup: showall
+
+#+LATEX_HEADER: \usepackage[boxed, linesnumbered, commentsnumbered, noend, noline]{algorithm2e}
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+#+LATEX_HEADER: \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+#+LATEX_HEADER: \usepackage[margin=1.25in]{geometry}
+
+$0

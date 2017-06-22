@@ -37,13 +37,20 @@ values."
      git
      (shell :variables
             shell-default-height 30
-            shell-default-position 'bottom)
+            shell-default-position bottom)
+     ;; pdf-tools
 
      ;; +themes
      ;; themes-megapack
 
      ;; +completion
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-return-key-behavior complete
+                      auto-completion-tab-key-behavior cycle
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      spacemacs-default-company-backends (company-files company-capf)
+                      )
 
      ;; +emacs
      org
@@ -378,11 +385,40 @@ you should place your code here."
 
   (add-hook 'web-mode-hook 'hungry-delete-mode)
 
+  ;; TODO make this work (don't complete when hitting return in a repl buffer)
+  ;; (add-hook 'slime-repl-mode-hook
+  ;;           (lambda ()
+  ;;             (setq auto-completion-return-key-behavior nil)))
+
   (setq sql-postgres-login-params
         '((user :default "kevin")
           (database :default "kevin")
           (server :default "localhost")
           (port :default 5432))))
+
+(defun write-pid-file ()
+  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (make-directory (file-name-directory pidfile) t)
+              (with-temp-file pidfile
+                (insert (number-to-string (emacs-pid))))))
+  (add-hook 'kill-emacs-hook
+            (lambda ()
+              (when (file-exists-p pidfile)
+                (delete-file pidfile)))))
+
+(defvar my-org-babel-trusted-blocks nil)
+
+(defun my-org-confirm-babel-evaluate (lang body)
+  (let ((trusted (find (cons lang body) my-org-babel-trusted-blocks :test 'equal)))
+    (if trusted
+        nil ; Don't need to prompt
+      (if (not (y-or-n-p "Always trust this block?"))
+          t ; need to prompt, don't store in trusted
+        ;; Newly trusted, add to trusted list
+        (push (cons lang body) my-org-babel-trusted-blocks)
+        nil))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -456,27 +492,3 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  )
 )
-
-(defun write-pid-file ()
-  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (make-directory (file-name-directory pidfile) t)
-              (with-temp-file pidfile
-                (insert (number-to-string (emacs-pid))))))
-  (add-hook 'kill-emacs-hook
-            (lambda ()
-              (when (file-exists-p pidfile)
-                (delete-file pidfile)))))
-
-(defvar my-org-babel-trusted-blocks nil)
-
-(defun my-org-confirm-babel-evaluate (lang body)
-  (let ((trusted (find (cons lang body) my-org-babel-trusted-blocks :test 'equal)))
-    (if trusted
-        nil ; Don't need to prompt
-      (if (not (y-or-n-p "Always trust this block?"))
-          t ; need to prompt, don't store in trusted
-        ;; Newly trusted, add to trusted list
-        (push (cons lang body) my-org-babel-trusted-blocks)
-        nil))))
