@@ -37,7 +37,7 @@ values."
      git
      (shell :variables
             shell-default-height 30
-            shell-default-position bottom)
+            shell-default-position 'bottom)
      ;; pdf-tools
 
      ;; +themes
@@ -45,11 +45,11 @@ values."
 
      ;; +completion
      (auto-completion :variables
-                      auto-completion-return-key-behavior complete
-                      auto-completion-tab-key-behavior cycle
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
-                      spacemacs-default-company-backends (company-files company-capf)
+                      spacemacs-default-company-backends '(company-files company-capf)
                       )
 
      ;; +emacs
