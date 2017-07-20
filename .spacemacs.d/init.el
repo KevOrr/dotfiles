@@ -441,6 +441,7 @@ you should place your code here."
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(flycheck-pylintrc "~/.pylintrc")
  '(org-babel-load-languages
    (quote
     ((python . t)
