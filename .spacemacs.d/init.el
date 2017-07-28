@@ -394,7 +394,7 @@ you should place your code here."
           (port :default 5432))))
 
 (defun write-pid-file ()
-  (setq pidfile "/run/user/1000/emacs/emacs-server.pid")
+  (setq pidfile (format "/run/user/%d/emacs/emacs-server.pid" (user-real-uid)))
   (add-hook 'emacs-startup-hook
             (lambda ()
               (make-directory (file-name-directory pidfile) t)
