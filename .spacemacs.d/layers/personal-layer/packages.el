@@ -4,14 +4,30 @@
     slime
     python
     web-mode
+    dired-du
+    (python-smartparens-fixes :location local)
     ))
 
-(defun personal-layer/post-init-slime-company ()
-  )
+(defun personal-layer/post-init-slime-company ())
+
+(defun personal-layer/init-dired-du ()
+  (use-package dired-du
+    :defer t))
 
 (defun personal-layer/init-evil-cleverparens ()
   (use-package evil-cleverparens
     :defer t))
+
+(defun personal-layer/init-python-smartparens-fixes ()
+  (use-package python-smartparens-fixes
+    :defer t
+    :commands (python-smartparens-fixes-mode
+               py-sp-raise-sexp
+               py-sp-unwrap-sexp)
+    :init (spacemacs|use-package-add-hook python-mode
+            :post-config (progn
+                           (add-hook 'python-mode-hook 'python-smartparens-fixes-mode)
+                           (add-hook 'inferior-python-mode-hook 'python-smartparens-fixes-mode)))))
 
 (defun personal-layer/post-init-evil-cleverparens ()
   (add-hook 'lisp-mode-hook 'evil-cleverparens-mode)
@@ -26,7 +42,7 @@
 (defun personal-layer/post-init-web-mode ()
   (add-hook 'web-mode-hook 'hungry-delete-mode))
 
-(defun personal-layer/post-init-org-plus-contrib (0)
+(defun personal-layer/post-init-org-plus-contrib ()
   (defvar personal-layer//org-babel-trusted-blocks nil)
 
   (defun personal-layer/org-confirm-babel-evaluate (lang body)
