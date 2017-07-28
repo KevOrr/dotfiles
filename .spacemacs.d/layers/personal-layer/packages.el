@@ -24,10 +24,9 @@
     :commands (python-smartparens-fixes-mode
                py-sp-raise-sexp
                py-sp-unwrap-sexp)
-    :init (spacemacs|use-package-add-hook python-mode
-            :post-config (progn
-                           (add-hook 'python-mode-hook 'python-smartparens-fixes-mode)
-                           (add-hook 'inferior-python-mode-hook 'python-smartparens-fixes-mode)))))
+    :init (progn
+            (add-hook 'python-mode-hook 'python-smartparens-fixes-mode)
+            (add-hook 'inferior-python-mode-hook 'python-smartparens-fixes-mode))))
 
 (defun personal-layer/post-init-evil-cleverparens ()
   (add-hook 'lisp-mode-hook 'evil-cleverparens-mode)
