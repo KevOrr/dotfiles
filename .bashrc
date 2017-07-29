@@ -135,3 +135,10 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 ptrace_on () { echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
 ptrace_off () { echo 1 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
+
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
