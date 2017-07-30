@@ -6,6 +6,7 @@
     web-mode
     dired-du
     (python-smartparens-fixes :location local)
+    keyfreq
     ))
 
 (defun personal-layer/post-init-slime-company ())
@@ -53,3 +54,10 @@
           ;; Newly trusted, add to trusted list
           (push (cons lang body) personal-layer//org-babel-trusted-blocks)
           nil)))))
+
+(defun personal-layer/init-keyfreq ()
+  (use-package keyfreq
+    :defer t
+    :config (progn
+              (keyfreq-mode 1)
+              (keyfreq-autosave-mode 1))))
