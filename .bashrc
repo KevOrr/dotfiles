@@ -136,6 +136,15 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 ptrace_on () { echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
 ptrace_off () { echo 1 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
 
+get_bytes_written () {
+    local lbas_written_line="`sudo smartctl -x /dev/$1 | grep -i total_lbas_written`"
+    if [[ -n $lbas_written_line ]]; then
+        local lbas_written="`echo "$lbas_written_line" | python2 -c 'import sys; print sys.stdin.read().strip().split()[7]'`"
+        local block_size="`cat /sys/block/$1/queue/hw_sector_size`"
+        numfmt --to=iec-i --suffix=B --padding=7 $(( $lbas_written * $block_size ))
+    fi
+}
+
 if [ -d "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
