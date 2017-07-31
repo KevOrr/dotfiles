@@ -12,7 +12,7 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 
 -- require("volume")
-local volume require("lib.awesome-volume.volume")
+local volume = require("lib.awesome-volume.volume")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -61,18 +61,18 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.tile,
+    awful.layout.suit.fair,
     awful.layout.suit.tile.left,
+    awful.layout.suit.tile.right,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
-    awful.layout.suit.floating,
-    -- awful.layout.suit.fair,
+    -- awful.layout.suit.floating,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.magnifier
+    -- awful.layout.suit.magnifier
 }
 -- }}}
 
