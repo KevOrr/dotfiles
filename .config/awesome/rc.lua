@@ -11,7 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
-require("volume")
+-- require("volume")
+local volume require("lib.awesome-volume.volume")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -239,12 +240,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Volume Keys
-    awful.key({                   }, "XF86AudioRaiseVolume", function ()
-        awful.util.spawn("amixer -D pulse set Master 10%+", false) end),
-    awful.key({                   }, "XF86AudioLowerVolume", function ()
-        awful.util.spawn("amixer -D pulse set Master 10%-", false) end),
-    awful.key({                   }, "XF86AudioMute", function ()
-        awful.util.spawn("amixer -D pulse set Master 1+ toggle", false) end),
+    -- awful.key({}, "XF86AudioRaiseVolume", function ()
+    --     awful.util.spawn("amixer -D pulse set Master 10%+", false) end),
+    -- awful.key({}, "XF86AudioLowerVolume", function ()
+    --     awful.util.spawn("amixer -D pulse set Master 10%-", false) end),
+    -- awful.key({}, "XF86AudioMute", function ()
+    --     awful.util.spawn("amixer -D pulse set Master 1+ toggle", false) end),
+    awful.key({}, "XF86AudioRaiseVolume", function () volume_up() end),
+    awful.key({}, "XF86AudioLowerVolume", function () volume_down() end),
+    awful.key({}, "XF86AudioMute", function () volume_mute() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -374,7 +378,9 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons,
+                     size_hints_honor = false
+    } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
