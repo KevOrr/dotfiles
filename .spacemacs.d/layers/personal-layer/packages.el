@@ -7,6 +7,7 @@
     dired-du
     (python-smartparens-fixes :location local)
     keyfreq
+    jinja2-mode
     ))
 
 (defun personal-layer/post-init-slime-company ())
@@ -61,3 +62,8 @@
     :config (progn
               (keyfreq-mode 1)
               (keyfreq-autosave-mode 1))))
+
+(defun personal-layer/init-jinja2-mode ()
+  (use-package jinja2-mode
+    :defer t
+    :config (add-to-list 'jinja2-user-keywords "assets")))
