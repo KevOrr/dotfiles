@@ -8,6 +8,7 @@
     (python-smartparens-fixes :location local)
     keyfreq
     jinja2-mode
+    highlight-indent-guides
     ))
 
 (defun personal-layer/post-init-slime-company ())
@@ -67,3 +68,14 @@
   (use-package jinja2-mode
     :defer t
     :config (add-to-list 'jinja2-user-keywords "assets")))
+
+(defun personal-layer/init-highlight-indent-guides ()
+  (use-package highlight-indent-guides
+    :defer t
+    :config (progn
+              (setq highlight-indent-guides-method 'character)
+              (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
+              (add-hook 'js-mode-hook 'highlight-indent-guides-mode)
+              (add-hook 'web-mode 'highlight-indent-guides-mode)
+              (add-hook 'c-mode-hook 'highlight-indent-guides-mode)
+              (add-hook 'c++-mode-hook 'highlight-indent-guides-mode))))
