@@ -11,6 +11,9 @@
     highlight-indent-guides
     ))
 
+(defcustom personal-layer-use-highlight-indent-guides t
+  "Load highlight-indent-guides package and add hooks defined in personal-layer on startup")
+
 (defun personal-layer/post-init-slime-company ())
 
 (defun personal-layer/init-dired-du ()
@@ -69,13 +72,14 @@
     :defer t
     :config (add-to-list 'jinja2-user-keywords "assets")))
 
-(defun personal-layer/init-highlight-indent-guides ()
-  (use-package highlight-indent-guides
-    :defer t
-    :config (progn
-              (setq highlight-indent-guides-method 'character)
-              (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
-              (add-hook 'js-mode-hook 'highlight-indent-guides-mode)
-              (add-hook 'web-mode 'highlight-indent-guides-mode)
-              (add-hook 'c-mode-hook 'highlight-indent-guides-mode)
-              (add-hook 'c++-mode-hook 'highlight-indent-guides-mode))))
+(if personal-layer-use-highlight-indent-guides
+    (defun personal-layer/init-highlight-indent-guides ()
+      (use-package highlight-indent-guides
+        :defer t
+        :config (progn
+                  (setq highlight-indent-guides-method 'character)
+                  (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
+                  (add-hook 'js-mode-hook 'highlight-indent-guides-mode)
+                  (add-hook 'web-mode 'highlight-indent-guides-mode)
+                  (add-hook 'c-mode-hook 'highlight-indent-guides-mode)
+                  (add-hook 'c++-mode-hook 'highlight-indent-guides-mode)))))
