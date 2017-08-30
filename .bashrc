@@ -4,6 +4,8 @@ case $- in
       *) return;;
 esac
 
+[ -f /etc/bashrc ] && . /etc/bashrc
+
 [ -f ~/.setcolors ] && ~/.setcolors
 
 [ -f ~/.bashrc_local ] && . ~/.bashrc_local
@@ -144,6 +146,8 @@ get_bytes_written () {
         numfmt --to=iec-i --suffix=B --padding=7 $(( $lbas_written * $block_size ))
     fi
 }
+
+rot13 () { tr A-Za-z N-ZA-Mn-za-m ;}
 
 if [ -d "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
