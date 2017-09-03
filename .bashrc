@@ -43,7 +43,7 @@ _prompt_command() {
         PS1+="$reset(venv) "
     fi
 
-    PS1+="${light_green}${USER}@`hostname`${reset} "
+    PS1+="${light_green}\u@\h${reset} "
 
     # if [ jobs >/dev/null 2>&1 ]; then
     #     local bgjobs=$(jobs -r | wc -l | tr -d " ")
