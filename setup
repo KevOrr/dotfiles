@@ -2,7 +2,33 @@
 
 set -e
 
-pushd .
+error=
+
+if ! git config --get user.email >/dev/null; then
+    echo "Error: cannot backup current files in $HOME unless git config user.email is set"
+    echo 'Please run `git config --global user.email you@email.com` first'
+    echo
+    error=y
+fi
+
+if ! git config --get user.name >/dev/null; then
+    echo "Error: cannot backup current files in $HOME unless git config user.name is set"
+    echo 'Please run `git config --global user.name your_name` first'
+    echo
+    error=y
+fi
+
+if [ -e ~/.git ]; then
+    echo "Error: $HOME/.git already exists"
+    error=y
+fi
+
+if [ -n "$error" ]; then
+    exit 1
+fi
+
+
+pushd . >/dev/null
 
 d="$(mktemp -d)"
 git clone https://github.com/kevorr/dotfiles "$d"
