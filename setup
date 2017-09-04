@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+pushd .
+
+d="$(mktemp -d)"
+git clone https://github.com/kevorr/dotfiles "$d"
+
+cd "$d"
+git checkout master
+git config status.showUntrackedFiles no
+mv .git $HOME
+
+cd "$HOME"
+git stash save "local dotfiles backup"
+git checkout .
+
+popd
+
+if [ -n "$BASH_VERSION" ]; then
+   exec bash
+fi
