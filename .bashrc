@@ -5,9 +5,7 @@ case $- in
 esac
 
 [ -f /etc/bashrc ] && . /etc/bashrc
-
-[ -f ~/.setcolors ] && ~/.setcolors
-
+[ -f ~/.shrc ] && . ~/.shrc
 [ -f ~/.bashrc_local ] && . ~/.bashrc_local
 
 # Don't put duplicate lines or lines starting with space in the history.
@@ -69,25 +67,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+shopt -s globstar
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -98,69 +78,4 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
-fi
-
-###########
-# Aliases #
-###########
-
-[ -f ~/.gitaliases ] && . ~/.gitaliases
-
-alias ll='ls -lF'
-alias la='ls -A'
-alias lal='ls -alF'
-alias l='ls -CF'
-
-alias o='xdg-open'
-alias c=clear
-alias clip='xclip -selection clipboard'
-
-alias ec='emacsclient'
-alias ecc='emacsclient -c'
-alias ecnc='emacsclient -nc'
-sudoec () { SUDO_EDITOR=emacsclient sudoedit $@; }
-sudoecc () { SUDO_EDITOR='emacsclient -c' sudoedit $@; }
-alias gdb='gdb --quiet'
-
-setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
-getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
-
-# http://www.bashoneliners.com/oneliners/oneliner/199/
-alias randtext="tr -dc a-z1-5 </dev/urandom | tr 1-2 ' \n' | awk 'length==0 || length>50' | tr 3-5 ' ' | sed 's/^ *//' | cat -s | fmt"
-
-randpass () { head -c$(( ($1+1)/2 )) </dev/random | xxd -p | head -c$1 | sed -e 'a\'; }
-urandpass () { head -c$(( ($1+1)/2 )) </dev/urandom | xxd -p | head -c$1 | sed     -e 'a\'; }
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-ptrace_on () { echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
-ptrace_off () { echo 1 | sudo tee /proc/sys/kernel/yama/ptrace_scope; }
-
-get_bytes_written () {
-    local lbas_written_line="`sudo smartctl -x /dev/$1 | grep -i total_lbas_written`"
-    if [[ -n $lbas_written_line ]]; then
-        local lbas_written="`echo "$lbas_written_line" | python2 -c 'import sys; print sys.stdin.read().strip().split()[7]'`"
-        local block_size="`cat /sys/block/$1/queue/hw_sector_size`"
-        numfmt --to=iec-i --suffix=B --padding=7 $(( $lbas_written * $block_size ))
-    fi
-}
-
-rot13 () { tr A-Za-z N-ZA-Mn-za-m ;}
-
-if [ -d "$HOME/.pyenv" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-if [ -d "/usr/local/cuda" ]; then
-   export CUDA_HOME="/usr/local/cuda"
-   if [[ -n $LD_LIBRARY_PATH ]]; then
-       export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
-   else
-       export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
-   fi
 fi

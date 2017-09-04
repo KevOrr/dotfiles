@@ -38,6 +38,5 @@ fi
 
 export SUDO_EDITOR="$EDITOR"
 export VISUAL="$EDITOR"
-if [ -e /home/kevin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/kevin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 eval `ssh-agent`
