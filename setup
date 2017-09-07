@@ -27,23 +27,19 @@ if [ -n "$error" ]; then
     exit 1
 fi
 
+set -x
 
-pushd . >/dev/null
+pushd "$HOME" >/dev/null
+git clone --bare https://github.com/kevorr/dotfiles .git
 
-d="$(mktemp -d)"
-git clone https://github.com/kevorr/dotfiles "$d"
-
-cd "$d"
-git checkout master
-git config status.showUntrackedFiles no
-mv .git $HOME
-
-cd "$HOME"
+GIT_DIR=.git git --bare config core.bare false
+git reset --soft master
 git stash save "local dotfiles backup"
 git checkout .
+git config status.showUntrackedFiles no
 
 popd
 
-if [ -n "$BASH_VERSION" ]; then
-   exec bash
+if type "$0" >/dev/null; then
+   exec "$0"
 fi
