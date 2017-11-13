@@ -9,6 +9,7 @@
     keyfreq
     jinja2-mode
     highlight-indent-guides
+    (ligatti-langs :location local)
     ))
 
 (defcustom personal-layer-use-highlight-indent-guides t
@@ -83,3 +84,9 @@
                   (add-hook 'web-mode 'highlight-indent-guides-mode)
                   (add-hook 'c-mode-hook 'highlight-indent-guides-mode)
                   (add-hook 'c++-mode-hook 'highlight-indent-guides-mode)))))
+
+(defun personal-layer/init-ligatti-langs ()
+  (use-package ligatti-langs
+    :defer t
+    :mode ("\\.dj\\'" . dj-mode)
+    :mode ("\\.dism\\'" . dism-mode)))
