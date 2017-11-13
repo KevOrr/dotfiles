@@ -9,7 +9,7 @@ ExecStartPre=/bin/touch /run/user/1000/emacs/emacs-server.pid
 ExecStart=/bin/bash -c '. ~/.profile && /usr/bin/emacs --daemon'
 PIDFile=/run/user/1000/emacs/emacs-server.pid
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-Restart=always
+Restart=on-failure
 
 [Install]
 WantedBy=default.target

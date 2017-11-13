@@ -10,10 +10,31 @@
     jinja2-mode
     highlight-indent-guides
     (ligatti-langs :location local)
+    bison-mode
+    adjust-parens
     ))
 
+(defgroup personal-layer nil
+  "Personal spacemacs layer settings."
+  :prefix "personal-layer-")
+
 (defcustom personal-layer-use-highlight-indent-guides t
-  "Load highlight-indent-guides package and add hooks defined in personal-layer on startup")
+  "Load highlight-indent-guides package and add hooks defined in personal-layer on startup"
+  :group 'personal-layer
+  :type '(boolean))
+
+(defcustom personal-layer-use-slime-highlight-edits t
+  "Use slime-highlight-edits from slime-contribs"
+  :group 'personal-layer
+  :type '(boolean)
+  :set (lambda (sym val)
+         (message "Trying to set %S to value %S" sym val)
+         (if val
+             (spacemacs|use-package-add-hook slime
+               :config (push 'slime-highlight-edits slime-contribs))
+           (spacemacs|use-package-add-hook slime
+             :config (setq slime-contribs (delete 'slime-highlight-edits slime-contribs))))
+         (set sym val)))
 
 (defun personal-layer/post-init-slime-company ())
 
@@ -40,7 +61,8 @@
   (add-hook 'emacs-lisp-mode-hook 'evil-cleverparens-mode))
 
 (defun personal-layer/post-init-slime ()
-  (push 'slime-highlight-edits slime-contribs))
+  (if personal-layer-use-slime-highlight-edits
+      (push 'slime-highlight-edits slime-contribs)))
 
 (defun personal-layer/post-init-python ()
   (add-to-list 'auto-mode-alist '("\\.pyt\\'" . python-mode)))
@@ -90,3 +112,13 @@
     :defer t
     :mode ("\\.dj\\'" . dj-mode)
     :mode ("\\.dism\\'" . dism-mode)))
+
+(defun personal-layer/init-bison-mode ()
+  (use-package bison-mode
+    :defer t))
+
+(defun personal-layer/init-adjust-parens ()
+  (use-package adjust-parens
+    :defer t
+    :commands (adjust-parens-mode)
+    :init (add-hook 'lisp-mode-hook 'adjust-parens-mode)))
