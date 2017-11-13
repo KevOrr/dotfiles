@@ -6,7 +6,7 @@
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-#umask 022
+umask 077
 
 
 # if running bash
@@ -19,11 +19,11 @@ fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    export PATH="$HOME/bin:$PATH"
 fi
 
 if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$PATH:$HOME/.local/bin"
+    export PATH="$PATH:$HOME/.local/bin"
 fi
 
 if [ -x /usr/bin/emacsclient ]; then
