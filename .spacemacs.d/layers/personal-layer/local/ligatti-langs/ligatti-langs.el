@@ -47,8 +47,8 @@
     (modify-syntax-entry ?\n "> b" st)
     (modify-syntax-entry ?\( "()" st)
     (modify-syntax-entry ?\) ")(" st)
-    (modify-syntax-entry ?{ "(}" st})
-    (modify-syntax-entry ? "){" st)
+    (modify-syntax-entry ?\{ "(}" st)
+    (modify-syntax-entry ?\} "){" st)
     st)
   "Syntax table for dj-mode")
 
@@ -62,16 +62,32 @@
 (defun dj-mode-indent-line ()
   (interactive)
   (cond
-   ((= 0 (current-column))
-    (indent-line-to (* dj-mode-indentation (car (print (syntax-ppss))))))
    ((save-excursion
       (beginning-of-line)
-      (looking-at-p "\s*}"))
+      (looking-at-p "\\s-*}"))
     (indent-line-to (* dj-mode-indentation (1- (car (syntax-ppss))))))
+   ((= 0 (current-column))
+    (indent-line-to (* dj-mode-indentation (car (syntax-ppss)))))
    (t
     (save-excursion
       (beginning-of-line)
       (indent-line-to (* dj-mode-indentation (car (syntax-ppss))))))))
+
+(defun dj-mode-newline-and-indent ()
+  (interactive)
+  (cond
+   ((and (= ?\{ (char-before)) (= ?\} (char-after)))
+    (electric-indent-just-newline 2)
+    (dj-mode-indent-line)
+    (forward-line -1)
+    (dj-mode-indent-line))
+   (t (newline-and-indent))))
+
+(defvar dj-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "RET") 'dj-mode-newline-and-indent)
+    map))
+
 
 (defvar dism-mode-map
   (let ((map (make-sparse-keymap)))
@@ -120,6 +136,7 @@
   (set-syntax-table dj-mode-syntax-table)
   (set (make-local-variable 'indent-line-function) 'dj-mode-indent-line)
   (set (make-local-variable 'font-lock-defaults) '(dj-mode-font-lock-keywords))
+  (use-local-map dj-mode-map)
 
   (setq major-mode 'dj-mode)
   (setq mode-name "DJ")
