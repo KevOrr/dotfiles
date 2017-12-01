@@ -1,5 +1,16 @@
 # My rc file for common bash and zsh setup
 
+# Is this an ssh session?
+# https://unix.stackexchange.com/a/9607/77627
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    export IS_SSH=true
+else
+    case $(ps -o comm= -p $PPID) in
+        sshd|*/sshd) export IS_SSH=true ;;
+    esac
+fi
+
+
 # COLORS
 
 [ -f ~/.setcolors ] && ~/.setcolors
