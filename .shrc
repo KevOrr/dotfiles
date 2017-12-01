@@ -20,11 +20,12 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # SETTINGS
 
 alias gdb='gdb --quiet'
+alias cp='cp --reflink=auto'
 
 if [ $UID -eq 0 ]; then
-    alias rm='rm -i';
-    alias cp='cp -i';
-    alias mv='mv -i';
+    alias rm='rm -i'
+    alias cp='cp -i --reflink=auto'
+    alias mv='mv -i'
 fi
 
 
