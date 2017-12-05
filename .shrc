@@ -42,7 +42,7 @@ fi
 
 # SHORT ALIASES
 
-[ -f ~/.gitaliases ] && . ~/.gitaliases
+[ -f ~/.gitaliases ] && source ~/.gitaliases
 
 alias ll='ls -lF'
 alias la='ls -A'
