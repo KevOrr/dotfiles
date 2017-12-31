@@ -54,6 +54,7 @@
  flycheck-pylintrc "~/.pylintrc"
  org-babel-load-languages '((python . t)
                             (shell . t)
+                            (dot . t)
                             (emacs-lisp . t)
                             (lisp . t))
  org-confirm-babel-evaluate 'personal-layer/org-confirm-babel-evaluate
