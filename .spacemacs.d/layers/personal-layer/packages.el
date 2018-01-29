@@ -12,6 +12,8 @@
     (ligatti-langs :location local)
     bison-mode
     adjust-parens
+    ;; (processing2-emacs :location (recipe :fetcher github
+    ;;                                      :repo "ptrv/processing2-emacs"))
     ))
 
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -73,6 +75,9 @@
                               ("basicstyle" "\\small\\ttfamily")
                               ("breaklines" "true"))
  org-startup-with-inline-images t
+ processing-location "/home/kevin/.local/share/processing/processing-java"
+ processing-application-dir "/home/kevin/.local/share/processing"
+ processing-sketchbook-dir "/home/kevin/sketchbook"
  )
 (custom-set-faces '(slime-highlight-edits-face ((t (:background "black")))))
 
@@ -160,3 +165,9 @@
     :defer t
     :commands (adjust-parens-mode)
     :init (add-hook 'lisp-mode-hook 'adjust-parens-mode)))
+
+;; (defun personal-layer/init-processing2-emacs ()
+;;   (use-package processing2-emacs
+;;     :defer t
+;;     :commands (processing-mode)
+;;     :mode ("\\.pde\\'" . processing-mode)))
