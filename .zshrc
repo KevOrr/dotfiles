@@ -11,7 +11,7 @@
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 if [ "$TERM" = "eterm-color" ]; then
     ZSH_THEME="robbyrussell"
-elif [[ "$(hostname -s)" = tortoise ]] && [[ ! -n "$IS_SSH" ]]; then
+elif [[ "$(hostname -s)" = tortoise ]] && [[ "$TERM" = linux ]]; then
     ZSH_THEME="robbyrussell"
 else
     ZSH_THEME="agnoster"
@@ -89,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# zsh borks some of my aliases, so source again...
+# ohmyzsh borks some of my aliases, so source again...
 [ -f ~/.gitaliases ] && source ~/.gitaliases
 
 if [ -n "$INSIDE_EMACS" ]; then
