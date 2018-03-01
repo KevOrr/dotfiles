@@ -53,6 +53,11 @@ alias o='xdg-open'
 alias c=clear
 alias clip='xclip -selection clipboard'
 
+alias sc="sudo systemctl"
+alias scu="systemctl --user"
+alias jc="sudo journalctl"
+alias jcu="journalctl --user"
+
 alias ec='emacsclient'
 alias ecc='emacsclient -c'
 alias ecnc='emacsclient -nc'
