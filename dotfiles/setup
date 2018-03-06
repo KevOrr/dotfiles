@@ -2,44 +2,109 @@
 
 set -e
 
-error=
+function verify () {
+    while true; do
+        echo -n "$1 ([y]es/[n]o) "
+        read response
+        case "$response" in
+            [yY]|[yY][eE][sS]) return 0;;
+            [nN]|[nN][oO]) return 1;;
+            *) echo "Please enter yes or no";;
+        esac
+    done
+}
 
-if ! git config --get user.email >/dev/null; then
-    echo "Error: cannot backup current files in $HOME unless git config user.email is set"
-    echo 'Please run `git config --global user.email you@email.com` first'
-    echo
-    error=y
+function doshow () {
+    set -x;
+    "$@"
+    { set +x; } 2>/dev/null
+}
+
+function addpackage {
+    if verify "Install $1?"; then
+        FEDORA_PKGS="$FEDORA_PKGS $2"
+        UBUNTU_PKGS="$UBUNTU_PKGS $3"
+    fi
+}
+
+FEDORA_PKGS = 'htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
+UBUNTU_PKGS = 'htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libc++'
+addpackage Chromium chromium chromium
+if rpm -qi gnome-shell >/dev/null; then
+    addpackage "chrome-gnome-shell gnome-tweak-tool"
+fi
+addpackage Emacs emacs emacs
+addpackage ripgrep ripgrep
+addpackage sbcl sbcl sbcl
+addpackage "Python build requirements" "sqlite-devel readline-devel ncurses-devel" "sqlite-dev readline-dev ncurses-dev"
+addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
+addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
+addpackage wireshark "wireshark wireshark-qt" wireshark
+
+
+if [ -e ~/.git ]; then
+    echo "Error: $HOME/.git already exists"
+    exit 1
 fi
 
 if ! git config --get user.name >/dev/null; then
     echo "Error: cannot backup current files in $HOME unless git config user.name is set"
-    echo 'Please run `git config --global user.name your_name` first'
-    echo
-    error=y
+    echo -n "enter name>"
+    read line
+    doshow git config --global user.name "$line"
 fi
 
-if [ -e ~/.git ]; then
-    echo "Error: $HOME/.git already exists"
-    error=y
+if ! git config --get user.email >/dev/null; then
+    echo "Error: cannot backup current files in $HOME unless git config user.email is set"
+    echo -n "enter email> "
+    read line
+    doshow git config --global user.email "$line"
 fi
-
-if [ -n "$error" ]; then
-    exit 1
-fi
-
-set -x
 
 pushd "$HOME" >/dev/null
-git clone --bare https://github.com/kevorr/dotfiles .git
+if ! [ -e ~/.oh-my-zsh ] && verify "Install Oh My Zsh?"; then
+    if ! type zsh >/dev/null 2>&1; then
+        echo "It appears zsh is not installed. Please install zsh before installing Oh My Zsh"
+        echo "overwrite our .zshrc, which you will then have to check out from the local git repository"
+        verify "Continue?" || exit 1
+    fi
 
-GIT_DIR=.git git --bare config core.bare false
-git reset --soft master
-git stash save "local dotfiles backup"
-git checkout .
-git config status.showUntrackedFiles no
 
-popd
+    f=$(doshow mktemp)
+    doshow chmod 0600 "$f"
+    doshow curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh >"$f"
+    doshow sh "$f"
+fi
 
-if type "$0" >/dev/null; then
-   exec "$0"
+if ! [ -e ~/peda ] && verify "Install PEDA?"; then
+    doshow git clone https://github.com/longld/peda.git ~/peda
+fi
+
+if ! [ -e ~/.emacs.d ] && verify "Install Spacemacs?"; then
+    doshow git clone https://github.com/syl20bnr/spacemacs .emacs.d
+fi
+
+if verify "Enable emacs.service?"; then
+    doshow systemctl --user enable emacs.service
+fi
+
+doshow git clone --bare https://github.com/kevorr/dotfiles .git
+doshow GIT_DIR=.git git --bare config core.bare false
+doshow git reset --soft master
+
+if doshow git stash save "local dotfiles backup"; then
+    doshow git checkout .
+else
+    echo "Couldn't git stash, run git reset --hard instead?"
+    echo "Warning, this will overwrite files of the same name as files in this repo!"
+    verify "Continue?" || exit 1
+    doshow git reset --hard master
+fi
+
+doshow git config status.showUntrackedFiles no
+
+popd >/dev/null
+
+if type "$0" >/dev/null 2>&1; then
+   doshow "$0"
 fi
