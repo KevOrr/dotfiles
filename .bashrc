@@ -126,7 +126,11 @@ alias o='xdg-open'
 alias c=clear
 alias clip='xclip -selection clipboard'
 
-alias ec='emacsclient -n'
+alias ec='emacsclient'
+alias ecc='emacsclient -c'
+alias ecnc='emacsclient -nc'
+sudoec () { SUDO_EDITOR=emacsclient sudoedit $@; }
+sudoecc () { SUDO_EDITOR='emacsclient -c' sudoedit $@; }
 
 setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }

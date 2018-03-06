@@ -31,29 +31,38 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     sql
-     ;; util
-     ;; themes-megapack
-     auto-completion
+     ;; +tools
      git
-     org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
+
+     ;; +themes
+     ;; themes-megapack
+
+     ;; +completion
+     auto-completion
+
+     ;; +emacs
+     org
+
+     ;; +checkers
      spell-checking
      (syntax-checking :variables flycheck-gcc-language-standard "c++11")
 
      ;; +lang
-     (python :variables python-indent-offset 4)
      c-c++
      common-lisp
-     emacs-lisp
-     java
-     ruby
-     lua
      csv
-     octave
+     emacs-lisp
+     haskell
+     java
+     lua
      markdown
+     octave
+     (python :variables python-indent-offset 4)
+     ruby
+     sql
 
      ;; stuff spacemacs recommended
      ;; better-defaults
