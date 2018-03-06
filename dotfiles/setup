@@ -17,30 +17,52 @@ function verify () {
 function doshow () {
     set -x;
     "$@"
+    { ret=$?; } 2>/dev/null
     { set +x; } 2>/dev/null
+    return $ret
 }
 
 function addpackage {
     if verify "Install $1?"; then
-        FEDORA_PKGS="$FEDORA_PKGS $2"
-        UBUNTU_PKGS="$UBUNTU_PKGS $3"
+        case distro in
+            fedora) pkgs="$pkgs $2" ;;
+            ubuntu) pkgs="$pkgs $3" ;;
+        esac
     fi
 }
 
-FEDORA_PKGS = 'htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
-UBUNTU_PKGS = 'htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libc++'
-addpackage Chromium chromium chromium
-if rpm -qi gnome-shell >/dev/null; then
-    addpackage "chrome-gnome-shell gnome-tweak-tool"
-fi
-addpackage Emacs emacs emacs
-addpackage ripgrep ripgrep
-addpackage sbcl sbcl sbcl
-addpackage "Python build requirements" "sqlite-devel readline-devel ncurses-devel" "sqlite-dev readline-dev ncurses-dev"
-addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
-addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
-addpackage wireshark "wireshark wireshark-qt" wireshark
+if verify "Upgrade and install system packages?"; then
+    if [ -e /etc/fedora-release ]; then
+        distro=fedora
+        sudo dnf --refresh
+        if verify "Upgrade packages first?"; then sudo dnf upgrade; fi
+        pm="sudo dnf install"
+        pkgs='htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
+    elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
+        distro=ubuntu
+        sudo apt update
+        if verify "Upgrade packages first?"; then sudo apt upgrade; fi
+        pm="sudo apt install"
+        pkgs='htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libc++'
+    fi
 
+    addpackage Chromium chromium chromium
+    if rpm -qi gnome-shell >/dev/null; then
+        addpackage "chrome-gnome-shell gnome-tweak-tool"
+    fi
+    addpackage Emacs emacs emacs
+    addpackage ripgrep ripgrep
+    addpackage sbcl sbcl sbcl
+    addpackage "Python build requirements" "sqlite-devel readline-devel ncurses-devel" "sqlite-dev readline-dev ncurses-dev"
+    addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
+    addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
+    addpackage wireshark "wireshark wireshark-qt" wireshark
+
+    doshow $pm $pkgs
+fi
+
+
+cd "$HOME"
 
 if [ -e ~/.git ]; then
     echo "Error: $HOME/.git already exists"
@@ -61,39 +83,43 @@ if ! git config --get user.email >/dev/null; then
     doshow git config --global user.email "$line"
 fi
 
-pushd "$HOME" >/dev/null
-if ! [ -e ~/.oh-my-zsh ] && verify "Install Oh My Zsh?"; then
-    if ! type zsh >/dev/null 2>&1; then
-        echo "It appears zsh is not installed. Please install zsh before installing Oh My Zsh"
-        echo "overwrite our .zshrc, which you will then have to check out from the local git repository"
-        verify "Continue?" || exit 1
-    fi
-
-
-    f=$(doshow mktemp)
-    doshow chmod 0600 "$f"
-    doshow curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh >"$f"
-    doshow sh "$f"
-fi
-
 if ! [ -e ~/peda ] && verify "Install PEDA?"; then
     doshow git clone https://github.com/longld/peda.git ~/peda
 fi
 
 if ! [ -e ~/.emacs.d ] && verify "Install Spacemacs?"; then
-    doshow git clone https://github.com/syl20bnr/spacemacs .emacs.d
+    doshow git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 fi
 
 if verify "Enable emacs.service?"; then
     doshow systemctl --user enable emacs.service
 fi
 
-doshow git clone --bare https://github.com/kevorr/dotfiles .git
-doshow GIT_DIR=.git git --bare config core.bare false
+doshow git init
+if verify "Are you Kevin?"; then
+    doshow git remote add origin git@github.com:kevorr/dotfiles
+    [ -d ~/.ssh ] || doshow mkdir -m 700 ~/.ssh
+    [ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
+    [ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
+    doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_template >>~/.ssh/config
+    doshow cd ~/.ssh/keys
+    doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
+    echo "Upload this key to github"
+    doshow cat github.pub
+    echo -n "Press enter to continue> "
+    read line
+else
+    doshow git remote add origin https://github.com/kevorr/dotfiles
+fi
+
+doshow git fetch origin
+doshow git branch --track master origin/master
 doshow git reset --soft master
+doshow git submodule init
+doshow git submodule update
 
 if doshow git stash save "local dotfiles backup"; then
-    doshow git checkout .
+    doshow git checkout master
 else
     echo "Couldn't git stash, run git reset --hard instead?"
     echo "Warning, this will overwrite files of the same name as files in this repo!"
@@ -103,8 +129,15 @@ fi
 
 doshow git config status.showUntrackedFiles no
 
-popd >/dev/null
+if ! [ -e ~/.oh-my-zsh ] && verify "Install Oh My Zsh?"; then
+    if ! type zsh >/dev/null 2>&1; then
+        echo "It appears zsh is not installed. Please install zsh before installing Oh My Zsh"
+        echo "overwrite our .zshrc, which you will then have to check out from the local git repository"
+        verify "Continue?" || exit 1
+    fi
 
-if type "$0" >/dev/null 2>&1; then
-   doshow "$0"
+    f=$(doshow mktemp)
+    doshow chmod 0600 "$f"
+    doshow curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh >"$f"
+    doshow sh "$f"
 fi
