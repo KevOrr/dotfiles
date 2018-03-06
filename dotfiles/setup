@@ -101,9 +101,11 @@ if verify "Are you Kevin?"; then
     [ -d ~/.ssh ] || doshow mkdir -m 700 ~/.ssh
     [ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
     [ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
-    doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_template >>~/.ssh/config
-    doshow cd ~/.ssh/keys
-    doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
+    [ -e ~/.ssh/config ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_template >>~/.ssh/config
+    if ! [ -e ~/.ssh/keys/github ]; then
+        doshow cd ~/.ssh/keys
+        doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
+    fi
     echo "Upload this key to github"
     doshow cat github.pub
     echo -n "Press enter to continue> "
