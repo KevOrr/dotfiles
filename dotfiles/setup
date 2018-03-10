@@ -24,7 +24,7 @@ function doshow () {
 
 function addpackage {
     if verify "Install $1?"; then
-        case distro in
+        case $distro in
             fedora) pkgs="$pkgs $2" ;;
             ubuntu) pkgs="$pkgs $3" ;;
         esac
@@ -37,19 +37,20 @@ if verify "Upgrade and install system packages?"; then
         sudo dnf --refresh
         if verify "Upgrade packages first?"; then sudo dnf upgrade; fi
         pm="sudo dnf install"
-        pkgs='htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
+        pkgs='htop mlocate nmap tmux vim-enhanced zsh gcc gdb libcxx'
     elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
         distro=ubuntu
         sudo apt update
         if verify "Upgrade packages first?"; then sudo apt upgrade; fi
         pm="sudo apt install"
-        pkgs='htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libc++'
+        pkgs='htop mlocate nmap tmux vim zsh gcc gdb libc++'
     fi
 
     addpackage Chromium chromium chromium
-    if rpm -qi gnome-shell >/dev/null; then
-        addpackage "chrome-gnome-shell gnome-tweak-tool"
-    fi
+    case $distro in 
+        fedora) rpm -qi gnome-shell >/dev/null && addpackage "chrome-gnome-shell gnome-tweak-tool" ;;
+        ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
+    esac
     addpackage Emacs emacs emacs
     addpackage ripgrep ripgrep
     addpackage sbcl sbcl sbcl
