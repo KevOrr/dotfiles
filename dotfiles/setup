@@ -2,6 +2,9 @@
 
 set -e
 
+echo
+echo
+
 function verify () {
     while true; do
         echo -n "$1 ([y]es/[n]o) "
@@ -23,12 +26,15 @@ function doshow () {
 }
 
 function addpackage {
-    if verify "Install $1?"; then
+    verify "Install $1?"
+    ret=$?
+    if [ $ret -eq 0 ]; then
         case $distro in
             fedora) pkgs="$pkgs $2" ;;
             ubuntu) pkgs="$pkgs $3" ;;
         esac
     fi
+    return $ret
 }
 
 if verify "Upgrade and install system packages?"; then
@@ -36,13 +42,13 @@ if verify "Upgrade and install system packages?"; then
         distro=fedora
         sudo dnf --refresh
         if verify "Upgrade packages first?"; then sudo dnf upgrade; fi
-        pm="sudo dnf install"
+        pm="sudo dnf"
         pkgs='htop mlocate nmap tmux vim-enhanced zsh gcc gdb libcxx'
     elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
         distro=ubuntu
         sudo apt update
         if verify "Upgrade packages first?"; then sudo apt upgrade; fi
-        pm="sudo apt install"
+        pm="sudo apt"
         pkgs='htop mlocate nmap tmux vim zsh gcc gdb libc++'
     fi
 
@@ -52,16 +58,21 @@ if verify "Upgrade and install system packages?"; then
         ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
     esac
     addpackage Emacs emacs emacs
-    addpackage ripgrep ripgrep
+    addpackage ripgrep "" #ubuntu doesn't have ripgrep in official repos
     addpackage sbcl sbcl sbcl
-    addpackage "Python build requirements" "sqlite-devel readline-devel ncurses-devel" "sqlite-dev readline-dev ncurses-dev"
     addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
+    install_peda=$?
     addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
     addpackage wireshark "wireshark wireshark-qt" wireshark
-
-    doshow $pm $pkgs
+    doshow $pm install $pkgs
+    
+    if verify "Install python build dependencies?";
+        case $distro in
+            fedora) sudo dnf builddep python2 python3 ;;
+            ubuntu) sudo apt build-dep python python3 ;;
+        esac
+    fi
 fi
-
 
 cd "$HOME"
 
