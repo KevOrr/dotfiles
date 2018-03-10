@@ -27,14 +27,13 @@ function doshow () {
 
 function addpackage {
     verify "Install $1?"
-    ret=$?
+    package_added=$?
     if [ $ret -eq 0 ]; then
         case $distro in
             fedora) pkgs="$pkgs $2" ;;
             ubuntu) pkgs="$pkgs $3" ;;
         esac
     fi
-    return $ret
 }
 
 if verify "Upgrade and install system packages?"; then
@@ -61,7 +60,7 @@ if verify "Upgrade and install system packages?"; then
     addpackage ripgrep "" #ubuntu doesn't have ripgrep in official repos
     addpackage sbcl sbcl sbcl
     addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
-    install_peda=$?
+    install_peda=$package_added
     addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
     addpackage wireshark "wireshark wireshark-qt" wireshark
     doshow $pm install $pkgs
@@ -95,7 +94,7 @@ if ! git config --get user.email >/dev/null; then
     doshow git config --global user.email "$line"
 fi
 
-if ! [ -e ~/peda ] && verify "Install PEDA?"; then
+if ! [ -e ~/peda ] && { [ $install_peda -ne 0 ] || verify "Install PEDA?"; }; then
     doshow git clone https://github.com/longld/peda.git ~/peda
 fi
 
