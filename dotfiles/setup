@@ -30,7 +30,7 @@ function addpackage {
     verify "Install $1?"
     package_added=$?
     set -e
-    if [ $ret -eq 0 ]; then
+    if [ $package_added -eq 0 ]; then
         case $distro in
             fedora) pkgs="$pkgs $2" ;;
             ubuntu) pkgs="$pkgs $3" ;;
@@ -96,7 +96,7 @@ if ! git config --get user.email >/dev/null; then
     doshow git config --global user.email "$line"
 fi
 
-if ! [ -e ~/peda ] && { [ $install_peda -ne 0 ] || verify "Install PEDA?"; }; then
+if ! [ -e ~/peda ] && { [ $install_peda -eq 0 ] || verify "Install PEDA?"; }; then
     doshow git clone https://github.com/longld/peda.git ~/peda
 fi
 
