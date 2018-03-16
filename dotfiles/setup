@@ -41,16 +41,10 @@ function addpackage {
 if verify "Upgrade and install system packages?"; then
     if [ -e /etc/fedora-release ]; then
         distro=fedora
-        sudo dnf --refresh
-        if verify "Upgrade packages first?"; then sudo dnf upgrade; fi
-        pm="sudo dnf"
-        pkgs='htop mlocate nmap tmux vim-enhanced zsh gcc gdb libcxx'
+        pkgs='git htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
     elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
         distro=ubuntu
-        sudo apt update
-        if verify "Upgrade packages first?"; then sudo apt upgrade; fi
-        pm="sudo apt"
-        pkgs='htop mlocate nmap tmux vim zsh gcc gdb libc++'
+        pkgs='git htop mlocate nmap tmux vim zsh gcc gdb libc++'
     fi
 
     addpackage Chromium chromium chromium
@@ -59,14 +53,22 @@ if verify "Upgrade and install system packages?"; then
         ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
     esac
     addpackage Emacs emacs emacs
-    addpackage ripgrep "" #ubuntu doesn't have ripgrep in official repos
+    addpackage ripgrep ripgrep "" # Ripgrep is not on ubuntu yet
     addpackage sbcl sbcl sbcl
     addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
     install_peda=$package_added
     addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
     addpackage wireshark "wireshark wireshark-qt" wireshark
-    doshow $pm install $pkgs
-    
+
+    if [ -e /etc/fedora-release ]; then
+        doshow sudo dnf --refresh upgrade
+        doshow sudo dnf install $pkgs
+    elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
+        doshow sudo apt update
+        doshow sudo apt upgrade
+        doshow sudo apt install $pkgs
+    fi
+
     if verify "Install python build dependencies?"; then
         case $distro in
             fedora) sudo dnf builddep python2 python3 ;;
