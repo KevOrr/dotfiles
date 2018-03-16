@@ -5,6 +5,15 @@ set -e
 echo
 echo
 
+package_added=
+install_ctf_tools=
+
+if [ -e ~/.ssh/config ]; then
+    sshconfig_exists=true
+else
+    sshconfig_exists=
+fi
+
 function verify () {
     while true; do
         echo -n "$1 ([y]es/[n]o) "
@@ -26,15 +35,19 @@ function doshow () {
 }
 
 function addpackage {
+    local ret
     set +e
     verify "Install $1?"
-    package_added=$?
+    ret=$?
     set -e
-    if [ $package_added -eq 0 ]; then
+    if [ $ret -eq 0 ]; then
+        package_added=true
         case $distro in
             fedora) pkgs="$pkgs $2" ;;
             ubuntu) pkgs="$pkgs $3" ;;
         esac
+    else
+        package_added=
     fi
 }
 
@@ -48,7 +61,7 @@ if verify "Upgrade and install system packages?"; then
     fi
 
     addpackage Chromium chromium chromium
-    case $distro in 
+    case $distro in
         fedora) rpm -qi gnome-shell >/dev/null && addpackage "chrome-gnome-shell gnome-tweak-tool" ;;
         ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
     esac
@@ -56,7 +69,8 @@ if verify "Upgrade and install system packages?"; then
     addpackage ripgrep ripgrep "" # Ripgrep is not on ubuntu yet
     addpackage sbcl sbcl sbcl
     addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
-    install_peda=$package_added
+    install_ctf_tools=$package_added
+
     addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
     addpackage wireshark "wireshark wireshark-qt" wireshark
 
@@ -79,26 +93,31 @@ fi
 
 cd "$HOME"
 
+if ! type git >/dev/null 2>&1; then
+    echo "Git is not installed"
+    exit 1
+fi
+
 if [ -e ~/.git ]; then
     echo "Error: $HOME/.git already exists"
-    exit 1
+    verify "Remove $HOME/.git? " && doshow rm -rf ~/.git || exit 1
 fi
 
 if ! git config --get user.name >/dev/null; then
     echo "Error: cannot backup current files in $HOME unless git config user.name is set"
-    echo -n "enter name>"
+    echo -n "enter name for git> "
     read line
     doshow git config --global user.name "$line"
 fi
 
 if ! git config --get user.email >/dev/null; then
     echo "Error: cannot backup current files in $HOME unless git config user.email is set"
-    echo -n "enter email> "
+    echo -n "enter email for git> "
     read line
     doshow git config --global user.email "$line"
 fi
 
-if ! [ -e ~/peda ] && { [ $install_peda -eq 0 ] || verify "Install PEDA?"; }; then
+if ! [ -e ~/peda ] && { [ -n "${install_ctf_tools}" ] || verify "Install PEDA?"; }; then
     doshow git clone https://github.com/longld/peda.git ~/peda
 fi
 
@@ -111,12 +130,15 @@ if verify "Enable emacs.service?"; then
 fi
 
 doshow git init
+
+[ -d ~/.ssh ] || doshow mkdir -m 700 ~/.ssh
+[ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
+[ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
+[ -n "$ssh_config_exists" ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_header >>~/.ssh/config
+
 if verify "Are you Kevin?"; then
     doshow git remote add origin git@github.com:kevorr/dotfiles
-    [ -d ~/.ssh ] || doshow mkdir -m 700 ~/.ssh
-    [ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
-    [ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
-    [ -e ~/.ssh/config ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_template >>~/.ssh/config
+    [ -n "$ssh_config_exists" ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_dev >>~/.ssh/config
     if ! [ -e ~/.ssh/keys/github ]; then
         doshow cd ~/.ssh/keys
         doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
