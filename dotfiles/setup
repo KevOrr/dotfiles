@@ -65,10 +65,11 @@ if verify "Upgrade and install system packages?"; then
         fedora) rpm -qi gnome-shell >/dev/null && addpackage "chrome-gnome-shell gnome-tweak-tool" ;;
         ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
     esac
+    addpackage pavucontrol pavucontrol pavucontrol
     addpackage Emacs emacs emacs
     addpackage ripgrep ripgrep "" # Ripgrep is not on ubuntu yet
     addpackage sbcl sbcl sbcl
-    addpackage "CTF tools" "binwalk steghide john capstone" "binwalk steghide john capstone"
+    addpackage "CTF tools" "binwalk steghide john capstone "{"perl-Image-ExifTool","libimage-exiftool-perl"}
     install_ctf_tools=$package_added
 
     addpackage texlive "texlive-scheme-basic texlive-collection-basic texlive-collection-latex texlive-collection-latexextra texlive-collection-latexrecommended"
@@ -124,9 +125,15 @@ if verify "Enable emacs.service?"; then
     doshow systemctl --user enable emacs.service
 fi
 
+if verify "Download favorite fonts?"; then
+    mkdir -p ~/.fonts
+    doshow curl -fsSL -o ~/.fonts/source-code-pro-powerline.otf https://github.com/powerline/fonts/raw/master/SourceCodePro/Source%20Code%20Pro%20for%20Powerline.otf
+    doshow fc-cache -fr
+fi
+
 if [ -e ~/.git ]; then
     echo "Error: $HOME/.git already exists"
-    verify "Remove $HOME/.git? " && doshow rm -rf ~/.git || exit 1
+    verify "Remove $HOME/.git?" && doshow rm -rf ~/.git || exit 1
 fi
 
 doshow git init
@@ -135,13 +142,13 @@ doshow git init
 [ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
 [ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
 if ! [ -n "$sshconfig_exists" ]; then
-    doshow curl -f https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_header >>~/.ssh/config
+    doshow curl -fsSL https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_header >>~/.ssh/config
     doshow chmod 600 ~/.ssh/config
 fi
 
 if verify "Are you Kevin?"; then
     doshow git remote add origin git@github.com:kevorr/dotfiles
-    [ -n "$sshconfig_exists" ] || doshow curl -f https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_dev >>~/.ssh/config
+    [ -n "$sshconfig_exists" ] || doshow curl -fsSL https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_dev >>~/.ssh/config
     doshow cd ~/.ssh/keys
     if ! [ -e ~/.ssh/keys/github ]; then
         doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
