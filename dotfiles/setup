@@ -85,8 +85,8 @@ if verify "Upgrade and install system packages?"; then
 
     if verify "Install python build dependencies?"; then
         case $distro in
-            fedora) sudo dnf builddep python2 python3 ;;
-            ubuntu) sudo apt build-dep python python3 ;;
+            fedora) doshow sudo dnf builddep python2 python3 ;;
+            ubuntu) doshow sudo apt build-dep python python3 ;;
         esac
     fi
 fi
@@ -96,11 +96,6 @@ cd "$HOME"
 if ! type git >/dev/null 2>&1; then
     echo "Git is not installed"
     exit 1
-fi
-
-if [ -e ~/.git ]; then
-    echo "Error: $HOME/.git already exists"
-    verify "Remove $HOME/.git? " && doshow rm -rf ~/.git || exit 1
 fi
 
 if ! git config --get user.name >/dev/null; then
@@ -129,18 +124,26 @@ if verify "Enable emacs.service?"; then
     doshow systemctl --user enable emacs.service
 fi
 
+if [ -e ~/.git ]; then
+    echo "Error: $HOME/.git already exists"
+    verify "Remove $HOME/.git? " && doshow rm -rf ~/.git || exit 1
+fi
+
 doshow git init
 
 [ -d ~/.ssh ] || doshow mkdir -m 700 ~/.ssh
 [ -d ~/.ssh/keys ] || doshow mkdir -m 700 ~/.ssh/keys
 [ -d ~/.ssh/sessions ] || doshow mkdir -m 700 ~/.ssh/sessions
-[ -n "$ssh_config_exists" ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_header >>~/.ssh/config
+if ! [ -n "$sshconfig_exists" ]; then
+    doshow curl -f https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_header >>~/.ssh/config
+    doshow chmod 600 ~/.ssh/config
+fi
 
 if verify "Are you Kevin?"; then
     doshow git remote add origin git@github.com:kevorr/dotfiles
-    [ -n "$ssh_config_exists" ] || doshow curl https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_dev >>~/.ssh/config
+    [ -n "$sshconfig_exists" ] || doshow curl -f https://raw.githubusercontent.com/kevorr/dotfiles/master/dotfiles/sshconfig_dev >>~/.ssh/config
+    doshow cd ~/.ssh/keys
     if ! [ -e ~/.ssh/keys/github ]; then
-        doshow cd ~/.ssh/keys
         doshow ssh-keygen -t ed25519 -C "$USER@$HOSTNAME" -f github
     fi
     echo "Upload this key to github"
@@ -174,9 +177,8 @@ if ! [ -e ~/.oh-my-zsh ] && verify "Install Oh My Zsh?"; then
         echo "overwrite our .zshrc, which you will then have to check out from the local git repository"
         verify "Continue?" || exit 1
     fi
-
-    f=$(doshow mktemp)
-    doshow chmod 0600 "$f"
-    doshow curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh >"$f"
-    doshow sh "$f"
+    doshow sh <(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)
 fi
+
+doshow cd ~
+doshow git checkout .zshrc

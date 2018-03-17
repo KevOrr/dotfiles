@@ -1,0 +1,10 @@
+
+###############
+# Development #
+###############
+
+Host github.com
+    IdentityFile ~/.ssh/keys/github
+
+Host bitbucket.org
+    IdentityFile ~/.ssh/keys/bitbucket
