@@ -67,18 +67,20 @@ This function should only modify configuration layer settings."
      asm
      c-c++
      common-lisp-sly
+     coq
      csv
      emacs-lisp
-     ess
+     ;; ess
      graphviz
      haskell
      html
      ipython-notebook
      java
      javascript
-     lua
+     latex
+     ;; lua
      markdown
-     octave
+     ;; octave
      (python :variables python-indent-offset 4)
      ruby
      sml
@@ -215,7 +217,7 @@ It should only modify the values of Spacemacs settings."
    ;; to create your own spaceline theme. Value can be a symbol or list with\
    ;; additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator arrow :separator-scale 1.3)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -227,7 +229,7 @@ It should only modify the values of Spacemacs settings."
                                :size 13
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               )
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -423,7 +425,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -522,23 +524,18 @@ before packages are loaded."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (zenburn-theme yapfify web-mode string-inflection solarized-theme scss-mode realgud pyvenv pug-mode persp-mode pdf-tools org-brain monokai-theme mmm-mode meghanada live-py-mode linum-relative js2-refactor intero impatient-mode hy-mode hindent highlight-indentation helm-flx flycheck-haskell flx-ido fill-column-indicator eyebrowse expand-region evil-surround evil-org evil-nerd-commenter evil-magit eshell-prompt-extras ensime emojify ht ein editorconfig dumb-jump define-word dante csv-mode company-anaconda clang-format chruby auto-compile anaconda-mode ace-window ace-link ghc lua-mode ess smartparens highlight flycheck flyspell-correct helm helm-core avy markdown-mode dash-functional alert projectile magit magit-popup git-commit ghub let-alist with-editor epl pythonic f inf-ruby js2-mode company sly powerline dash yasnippet which-key use-package bind-key evil goto-chg async org-plus-contrib yasnippet-snippets yaml-mode xterm-color x86-lookup ws-butler winum websocket web-beautify volatile-highlights vi-tilde-fringe uuidgen undo-tree toc-org test-simple tagedit tablist symon sql-indent spaceline-all-the-icons smeargle sly-macrostep sly-company slim-mode shell-pop selectric-mode scala-mode sbt-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restart-emacs request-deferred rbenv rake rainbow-delimiters pytest pyenv-mode py-isort popwin pippel pip-requirements password-generator parinfer paradox packed overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file ob-sml ob-ipython neotree nasm-mode nameless mvn multiple-cursors multi-term move-text minitest maven-test-mode markdown-toc magit-gitflow lorem-ipsum log4e loc-changes load-relative livid-mode link-hint less-css-mode keyfreq julia-mode json-mode js-doc jinja2-mode indent-guide importmagic hungry-delete htmlize hlint-refactor hl-todo highlight-parentheses highlight-numbers helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-hoogle helm-gtags helm-gitignore helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets groovy-mode groovy-imports graphviz-dot-mode gradle-mode google-translate google-c-style golden-ratio gnuplot gntp gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy font-lock+ flyspell-correct-helm flycheck-rtags flycheck-pos-tip flx fancy-battery exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view eshell-z esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav disaster dired-du diminish cython-mode counsel-projectile company-web company-tern company-statistics company-rtags company-lua company-ghci company-ghc company-emoji company-emacs-eclim company-cabal company-c-headers common-lisp-snippets column-enforce-mode coffee-mode cmm-mode clips-mode clean-aindent-mode bundler bison-mode auto-yasnippet auto-highlight-symbol auto-dictionary aggressive-indent adjust-parens adaptive-wrap ace-jump-helm-line ac-ispell))))
+    (processing-mode yapfify yaml-mode xterm-color x86-lookup ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit sql-indent spaceline powerline smeargle sly-macrostep sly-company sly slim-mode shell-pop selectric-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pdf-tools tablist pcre2el paradox spinner orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file ob-sml sml-mode neotree nasm-mode multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode keyfreq json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc jinja2-mode intero indent-guide hydra hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-hoogle helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode graphviz-dot-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub let-alist with-editor evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight ess-smart-equals ess-R-data-view ctable ess julia-mode eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav ein skewer-mode request-deferred websocket request deferred js2-mode simple-httpd dumb-jump disaster dired-du diminish define-word cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emoji company-emacs-eclim eclim company-cabal company-c-headers company-anaconda company common-lisp-snippets column-enforce-mode coffee-mode cmm-mode cmake-mode clips-mode clean-aindent-mode clang-format chruby bundler inf-ruby bison-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adjust-parens adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(slime-highlight-edits-face ((t (:background "black")))))
-)
