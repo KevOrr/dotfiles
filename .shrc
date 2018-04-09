@@ -88,6 +88,17 @@ get_bytes_written () {
 rot13 () { tr A-Za-z N-ZA-Mn-za-m ;}
 
 
+function ifsniff {
+    set -x;
+    for iface in "$@"; do
+        sudo ifconfig "$iface" down
+        sudo ifconfig "$iface" hw ether 02:00:00:00:00:00
+        sudo sysctl -w "net.ipv6.conf.$iface.disable_ipv6=1"
+        sudo ifconfig "$iface" promisc -arp up
+    done;
+    { set +x; } 2>/dev/null
+}
+
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
