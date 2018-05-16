@@ -118,7 +118,7 @@ if ! [ -e ~/peda ] && { [ -n "${install_ctf_tools}" ] || verify "Install PEDA?";
 fi
 
 if ! [ -e ~/.emacs.d ] && verify "Install Spacemacs?"; then
-    doshow git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+    doshow git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d
 fi
 
 if verify "Enable emacs.service?"; then
