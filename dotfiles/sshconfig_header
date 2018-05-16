@@ -1,0 +1,9 @@
+Host *
+    ControlMaster auto
+    ControlPath ~/.ssh/sessions/%r@%h:%p
+    ControlPersist 10m
+    AddKeysToAgent yes
+    VisualHostKey yes
+    FingerPrintHash=sha256
+    VerifyHostKeyDNS ask
+
