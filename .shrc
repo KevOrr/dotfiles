@@ -10,6 +10,11 @@ else
     esac
 fi
 
+if [ -d "$HOME/.local/share/binaryninja/python" ]; then
+    export PYTHONPATH="$PYTHONPATH:$HOME/.local/share/binaryninja/python"
+fi
+
+[ -d ~/.local/bin ] && ! test "${PATH#*$HOME/.local/bin}" != "$PATH" && PATH="$HOME/.local/bin:$PATH"
 
 # COLORS
 
@@ -121,4 +126,8 @@ if [ -d "/usr/local/cuda" ]; then
    else
        export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
    fi
+fi
+
+if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
+    source ~/.local/bin/virtualenvwrapper.sh
 fi
