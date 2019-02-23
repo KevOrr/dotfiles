@@ -78,7 +78,10 @@
  processing-application-dir "/home/kevin/.local/share/processing"
  processing-sketchbook-dir "/home/kevin/sketchbook"
  )
-(custom-set-faces '(slime-highlight-edits-face ((t (:background "black")))))
+(custom-set-faces
+ '(slime-highlight-edits-face ((t (:background "black"))))
+ '(proof-locked-face ((t (:background "gray10"))))
+ )
 
 (defun personal-layer/post-init-slime-company ())
 
