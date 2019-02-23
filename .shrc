@@ -72,6 +72,14 @@ sudoecc () { SUDO_EDITOR='emacsclient -c' sudoedit $@; }
 setgov () { echo $1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 getgov () { cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; }
 
+cputhrottle () {
+    if [ $# -eq 0 ]; then
+        cat /sys/devices/system/cpu/intel_pstate/max_perf_pct
+    else
+        echo $1 | sudo tee /sys/devices/system/cpu/intel_pstate/max_perf_pct
+    fi
+}
+
 randpass () { head -c$(( ($1+1)/2 )) </dev/random | xxd -p | head -c$1 | sed -e 'a\'; }
 urandpass () { head -c$(( ($1+1)/2 )) </dev/urandom | xxd -p | head -c$1 | sed     -e 'a\'; }
 
