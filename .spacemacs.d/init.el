@@ -35,7 +35,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(php
+   '(go
+     php
      clojure
      ;; +tools
      git
