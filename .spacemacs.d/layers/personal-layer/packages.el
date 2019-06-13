@@ -77,6 +77,11 @@
  processing-location "/home/kevin/.local/share/processing/processing-java"
  processing-application-dir "/home/kevin/.local/share/processing"
  processing-sketchbook-dir "/home/kevin/sketchbook"
+ coq-compile-before-require t
+ coq-compiler (expand-file-name "~/.opam/coq/bin/coqc")
+ coq-prog-name (expand-file-name "~/.opam/coq/bin/coqtop")
+ proof-three-window-enable nil
+ proof-three-window-mode-policy 'hybrid
  )
 (custom-set-faces
  '(slime-highlight-edits-face ((t (:background "black"))))

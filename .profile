@@ -47,3 +47,6 @@ export SUDO_EDITOR="$EDITOR"
 export VISUAL="$EDITOR"
 
 eval `ssh-agent`
+
+# opam configuration
+test -r /home/kevin/.opam/opam-init/init.zsh && . /home/kevin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
