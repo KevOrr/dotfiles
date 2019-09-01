@@ -178,6 +178,15 @@ fi
 
 doshow git config status.showUntrackedFiles no
 
+if verify 'Setup gnome-shell?'; then
+    gsettings set org.gnome.desktop.wm.keybindings switch-windows '["<Alt>Tab"]'
+    gsettings set org.gnome.desktop.wm.keybindings switch-applications '["<Super>Tab]'
+    ~/dotfiles/add_gnome_keybinding Terminal gnome-terminal '<Super>Return'
+
+    # TODO install/enable Freon, System-monitor, "Launch new instance", "Removable drive menu", "User themes"
+    echo 'TODO: download and install my common extensions'
+fi
+
 if ! [ -e ~/.oh-my-zsh ] && verify "Install Oh My Zsh?"; then
     if ! type zsh >/dev/null 2>&1; then
         echo "It appears zsh is not installed. Please install zsh before installing Oh My Zsh"
