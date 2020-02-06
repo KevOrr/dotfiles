@@ -9,18 +9,14 @@
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-if [ "$TERM" = "eterm-color" ]; then
-    ZSH_THEME="robbyrussell"
-elif [[ "$(hostname -s)" = tortoise ]] && [[ "$TERM" = linux ]]; then
-    ZSH_THEME="robbyrussell"
-else
-    ZSH_THEME="agnoster"
-fi
+case "$TERM" in
+    eterm-color|linux) ZSH_THEME=robbyrussell ;;
+    *) ZSH_THEME=agnoster ;;
+esac
 
 if [[ ! -n "$IS_SSH" ]]; then
-    case "$(hostname -s)" in
-        tortoise|yeti|revolve) DEFAULT_USER=kevin ;;
-        scln[0-9]) DEFAULT_USER=kevinorr ;;
+    case "$USER" in
+        kevin|kevinorr) DEFAULT_USER="$USER" ;;
     esac
 fi
 
@@ -70,7 +66,7 @@ ZSH_DISABLE_COMPFIX=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git exercism)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,4 +96,8 @@ if [ -n "$INSIDE_EMACS" ]; then
     chpwd() { print -P "\033AnSiTc %d" }
     print -P "\033AnSiTu %n"
     print -P "\033AnSiTc %d"
+fi
+
+if [ -f ~/.opam/opam-init/init.zsh ]; then
+    source ~/.opam/opam-init/init.zsh
 fi
