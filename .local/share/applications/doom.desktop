@@ -8,5 +8,5 @@ Icon=spacemacs
 Type=Application
 Terminal=false
 Categories=Development;TextEditor;
-StartupWMClass=Emacs
+#StartupWMClass=Emacs
 Keywords=Text;Editor;emacs;
