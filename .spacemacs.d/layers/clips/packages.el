@@ -79,7 +79,7 @@ Each entry is either:
     (add-hook 'clips-mode-hook 'parinfer-mode)))
 
 (defun clips/post-init-smartparens ()
-  (when (configuration-layer/package-used-p 'clips-mode)
+  (when (configuration-layer/package-usedp 'clips-mode)
     (add-hook 'clips-mode-hook 'smartparens-mode)))
 
 ;;; packages.el ends here

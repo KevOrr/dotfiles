@@ -11,7 +11,9 @@
     (ligatti-langs :location local)
     bison-mode
     adjust-parens
-    inf-clojure))
+    inf-clojure
+    vterm
+    ))
     ;; (processing2-emacs :location (recipe :fetcher github
     ;;                                      :repo "ptrv/processing2-emacs"))
 
@@ -49,6 +51,10 @@
                    (c++-mode . "bsd")
                    (java-mode . "java")
                    (other . "bsd"))
+ coq-compile-before-require t
+ coq-compiler (expand-file-name "~/.opam/coq/bin/coqc")
+ coq-prog-name (expand-file-name "~/.opam/coq/bin/coqtop")
+ coq-dependency-analyzer (expand-file-name "~/.opam/coq/bin/coqdep")
  custom-safe-themes '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
@@ -77,11 +83,10 @@
  processing-location "/home/kevin/.local/share/processing/processing-java"
  processing-application-dir "/home/kevin/.local/share/processing"
  processing-sketchbook-dir "/home/kevin/sketchbook"
- coq-compile-before-require t
- coq-compiler (expand-file-name "~/.opam/coq/bin/coqc")
- coq-prog-name (expand-file-name "~/.opam/coq/bin/coqtop")
  proof-three-window-enable nil
  proof-three-window-mode-policy 'hybrid
+ flycheck-ghc-args '("-Wall" "-Wmissing-exported-signatures" "-Wcompat" "-Widentities"
+                     "-Wredundant-constraints" "-Wmissed-specialisations")
  )
 (custom-set-faces
  '(slime-highlight-edits-face ((t (:background "black"))))
@@ -182,3 +187,10 @@
 ;;     :defer t
 ;;     :commands (processing-mode)
 ;;     :mode ("\\.pde\\'" . processing-mode)))
+
+(defun personal-layer/post-init-vterm ()
+  (use-package vterm
+    :defer t
+    :config (progn (message "ASDF")
+                   (evil-define-key 'insert 'vterm-mode-map
+                     (kbd "<delete>") #'vterm-send-delete))))
