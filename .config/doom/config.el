@@ -32,8 +32,28 @@
       "w -" #'evil-window-split
       :desc "M-x" "SPC" #'counsel-M-x)
 
+;; https://emacs.stackexchange.com/a/44930
+(defun kevorr/get-dpi (&optional frame)
+  "Get the DPI of FRAME (or current if nil)."
+  (cl-flet ((pyth (lambda (w h)
+                    (sqrt (+ (* w w)
+                             (* h h)))))
+            (mm2in (lambda (mm)
+                     (/ mm 25.4))))
+    (let* ((atts (frame-monitor-attributes frame))
+           (pix-w (cl-fourth (assoc 'geometry atts)))
+           (pix-h (cl-fifth (assoc 'geometry atts)))
+           (pix-d (pyth pix-w pix-h))
+           (mm-w (cl-second (assoc 'mm-size atts)))
+           (mm-h (cl-third (assoc 'mm-size atts)))
+           (mm-d (pyth mm-w mm-h)))
+      (/ pix-d (mm2in mm-d)))))
+
+(defvar kevorr/dpi-per-font-pt (* 159 16))
+
 (setq
- doom-font (font-spec :family "Source Code Pro" :size 24)
+ doom-font (font-spec :family "Source Code Pro"
+                      :size (floor kevorr/dpi-per-font-pt (kevorr/get-dpi)))
  doom-theme 'doom-one
  org-directory "~/Documents/org/"
  display-line-numbers-type t
