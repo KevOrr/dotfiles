@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Binary Ninja
-Exec=/bin/bash -c '. ~/.binaryninja/venv/bin/activate && exec binaryninja "$@"' bash %f
+Exec=binaryninja %f
 MimeType=application/x-binaryninja;x-scheme-handler/binaryninja;
 Icon=binaryninja
 Terminal=false
