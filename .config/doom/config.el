@@ -5,26 +5,9 @@
 ;; (setq user-full-name ""
 ;;       user-mail-address "")
 
-;; (defun my-dpi )
-
 (use-package! open-junk-file
   :custom
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
-
-;; (use-package! org-roam
-;;   :hook
-;;   (after-init org-roam-mode)
-;;   :custom
-;;   (org-roam-directory (expand-file-name "~/Documents/org"))
-;;   :config
-;;   (map!
-;;    :map org-mode-map
-;;    (:prefix ("r" . "Roam")
-;;      :desc "Roam" "l" #'org-roam
-;;      :desc "Find file" "f" #'org-roam-find-file
-;;      :desc "Switch to buffer" "b" #'org-roam-switch-to-buffer
-;;      :desc "Show graph" "g" #'org-roam-graph-show
-;;      :desc "Insert" "i" #'org-roam-insert)))
 
 (map! :leader
       "f J" #'open-junk-file
