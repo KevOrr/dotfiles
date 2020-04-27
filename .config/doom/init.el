@@ -63,6 +63,7 @@
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
+       (exwm +attached-minibuffer +systray +managed-randr +exim +exwm-edit)
        dired             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ibuffer         ; interactive buffer management
