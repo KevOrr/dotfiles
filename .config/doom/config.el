@@ -11,6 +11,13 @@
   :custom
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
 
+(after! org
+  (require 'org-ref)
+  (require 'org-ref-ivy-cite)
+  (require 'org-roam-bibtex)
+  (add-hook! org-roam-mode #'org-roam-bibtex-mode)
+  (setq org-preview-latex-default-process 'dvisvgm))
+
 (map! :leader
       (:prefix ("a" . "applications")
         :desc "Launch application" "a" #'counsel-linux-app)
@@ -64,6 +71,13 @@
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
  flycheck-pylintrc (expand-file-name "~/.pylintrc")
+ org-journal-file-type 'weekly
+ org-journal-date-format "%A, %d %B %Y"
+ org-journal-time-format "TODO "
+ org-journal-file-format "%Y-%m-%d.org"
+ org-journal-enable-agenda-integration t
+ org-journal-enable-cache t
+ org-journal-hide-entries-p nil
  org-babel-load-languages '((python . t)
                             (shell . t)
                             (dot . t)
