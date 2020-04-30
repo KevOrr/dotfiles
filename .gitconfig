@@ -1,6 +1,6 @@
 [user]
         name = Kevin Orr
-        email = kevinorr54@gmail.com
+        useConfigOnly = true
 [alias]
         lol = log --graph --decorate --pretty=oneline --abbrev-commit
         lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
