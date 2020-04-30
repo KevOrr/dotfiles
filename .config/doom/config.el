@@ -12,10 +12,14 @@
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
 
 (map! :leader
+      (:prefix ("a" . "applications")
+        :desc "Launch application" "a" #'counsel-linux-app)
+
       "f J" #'open-junk-file
       "w /" #'evil-window-vsplit
       "w -" #'evil-window-split
-      :desc "M-x" "SPC" #'counsel-M-x)
+      :desc "M-x" "SPC" #'counsel-M-x
+      :desc "M-x" "<f20>" #'counsel-M-x)
 
 ;; https://emacs.stackexchange.com/a/44930
 (defun kevorr/get-dpi (&optional frame)
