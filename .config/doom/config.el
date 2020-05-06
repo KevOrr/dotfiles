@@ -19,14 +19,20 @@
   (setq org-preview-latex-default-process 'dvisvgm))
 
 (map! :leader
-      (:prefix ("a" . "applications")
-        :desc "Launch application" "a" #'counsel-linux-app)
-
-      "f J" #'open-junk-file
-      "w /" #'evil-window-vsplit
-      "w -" #'evil-window-split
       :desc "M-x" "SPC" #'counsel-M-x
-      :desc "M-x" "<f20>" #'counsel-M-x)
+      :desc "M-x" "<f20>" #'counsel-M-x
+
+      (:prefix-map ("a" . "applications")
+       :desc "Launch application" "a" #'counsel-linux-app)
+
+      ;; Files
+      (:prefix "f"
+       "J" #'open-junk-file)
+
+      ;; Windows
+      (:prefix "w"
+       "/" #'evil-window-vsplit
+       "-" #'evil-window-split))
 
 ;; https://emacs.stackexchange.com/a/44930
 (defun kevorr/get-dpi (&optional frame)
