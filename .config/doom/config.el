@@ -51,11 +51,11 @@
            (mm-d (pyth mm-w mm-h)))
       (/ pix-d (mm2in mm-d)))))
 
-(defvar kevorr/dpi-per-font-pt (/ 289 30.0))
+(defvar kevorr/pt-per-dpi (/ 14 159.0))
 
 (setq
  doom-font (font-spec :family "Source Code Pro"
-                      :size (floor (kevorr/get-dpi) kevorr/dpi-per-font-pt))
+                      :size (ceiling (* kevorr/pt-per-dpi (kevorr/get-dpi))))
  doom-theme 'doom-one
  org-directory "~/Documents/org/"
  display-line-numbers-type t
