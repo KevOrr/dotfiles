@@ -107,7 +107,8 @@
  ;; org-confirm-babel-evaluate 'personal-layer/org-confirm-babel-evaluate
  org-image-actual-width nil
  org-log-into-drawer t
- org-todo-keywords '((sequence "TODO" "DONE(!)"))
+ ;; TODO who is overriding this?
+ org-todo-keywords '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)"))
  ;; org-latex-pdf-process '("latexmk -pdf %f && latexmk -c %f")
  org-latex-packages-alist '(("style=numeric,backend=biber" "biblatex" nil)
                             "\\addbibresource{references.bib}"
