@@ -16,7 +16,8 @@
   (require 'org-ref-ivy-cite)
   (require 'org-roam-bibtex)
   (add-hook! org-roam-mode #'org-roam-bibtex-mode)
-  (setq org-preview-latex-default-process 'dvisvgm))
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (add-hook! org-mode #'auto-fill-mode))
 
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
@@ -24,6 +25,12 @@
 
       (:prefix-map ("a" . "applications")
        :desc "Launch application" "a" #'counsel-linux-app)
+
+      ;; Notes
+      (:prefix "n"
+       ;; org-journal
+       (:prefix "j"
+        :desc "Open Journal" "o" (lambda () (interactive) (org-journal-new-entry 0))))
 
       ;; Files
       (:prefix "f"
@@ -72,7 +79,6 @@
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (kevorr/desired-font-pt))
  doom-theme 'doom-one
- org-directory "~/Documents/org/"
  display-line-numbers-type t
  +treemacs-git-mode 'deferred
  ivy-magic-tilde nil
@@ -92,19 +98,9 @@
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
  flycheck-pylintrc (expand-file-name "~/.pylintrc")
- org-journal-file-type 'weekly
- org-journal-date-format "%A, %d %B %Y"
- org-journal-time-format "TODO "
- org-journal-file-format "%Y-%m-%d.org"
- org-journal-enable-agenda-integration t
- org-journal-enable-cache t
- org-journal-hide-entries-p nil
- org-babel-load-languages '((python . t)
-                            (shell . t)
-                            (dot . t)
-                            (emacs-lisp . t)
-                            (lisp . t))
- ;; org-confirm-babel-evaluate 'personal-layer/org-confirm-babel-evaluate
+
+ ;; org
+ org-directory "~/Documents/org/"
  org-image-actual-width nil
  org-log-into-drawer t
  ;; TODO who is overriding this?
@@ -121,6 +117,28 @@
                               ("basicstyle" "\\small\\ttfamily")
                               ("breaklines" "true"))
  org-startup-with-inline-images t
+
+ ;; org-journal
+ org-journal-dir "~/Documents/org/journal"
+ org-journal-file-type 'weekly
+ org-journal-date-format "%A, %d %B %Y"
+ org-journal-time-format "TODO "
+ org-journal-file-format "%Y-%m-%d.org"
+ org-journal-enable-agenda-integration t
+ ;; org-journal-enable-cache t
+ org-journal-hide-entries-p nil
+ ;; carry over all TO-DO items that are not in a "done"-like state
+ org-journal-carryover-items "/!"
+ org-journal-search-results-order-by :desc
+
+ ;; org-babel
+ org-babel-load-languages '((python . t)
+                            (shell . t)
+                            (dot . t)
+                            (emacs-lisp . t)
+                            (lisp . t))
+ ;; org-confirm-babel-evaluate 'personal-layer/org-confirm-babel-evaluate
+
  processing-location (expand-file-name "~/.local/share/processing/processing-java")
  processing-application-dir (expand-file-name "~/.local/share/processing")
  processing-sketchbook-dir (expand-file-name "~/sketchbook")
