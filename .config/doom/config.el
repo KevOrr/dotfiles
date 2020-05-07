@@ -79,6 +79,10 @@
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (kevorr/desired-font-pt))
  doom-theme 'doom-one
+
+ ;; t was buggy
+ posframe-mouse-banish nil
+
  display-line-numbers-type t
  +treemacs-git-mode 'deferred
  ivy-magic-tilde nil
