@@ -35,27 +35,42 @@
        "-" #'evil-window-split))
 
 ;; https://emacs.stackexchange.com/a/44930
+(defun kevorr//pyth (w h)
+  (sqrt (+ (* w w)
+           (* h h))))
+
+(defun kevorr/frame-monitor-diag-pixels (&optional frame)
+  (cl-destructuring-bind (_ _ w h) (frame-monitor-geometry frame)
+    (kevorr//pyth w h)))
+
+(defun kevorr/frame-monitor-diag-inch (&optional frame)
+  (cl-destructuring-bind (w h) (frame-monitor-attribute 'mm-size frame)
+    (/ (kevorr//pyth w h)
+       25.4)))
+
 (defun kevorr/get-dpi (&optional frame)
   "Get the DPI of FRAME (or current if nil)."
-  (cl-flet ((pyth (lambda (w h)
-                    (sqrt (+ (* w w)
-                             (* h h)))))
-            (mm2in (lambda (mm)
-                     (/ mm 25.4))))
-    (let* ((atts (frame-monitor-attributes frame))
-           (pix-w (cl-fourth (assoc 'geometry atts)))
-           (pix-h (cl-fifth (assoc 'geometry atts)))
-           (pix-d (pyth pix-w pix-h))
-           (mm-w (cl-second (assoc 'mm-size atts)))
-           (mm-h (cl-third (assoc 'mm-size atts)))
-           (mm-d (pyth mm-w mm-h)))
-      (/ pix-d (mm2in mm-d)))))
+  (/ (kevorr/frame-monitor-diag-pixels frame)
+     (kevorr/frame-monitor-diag-inch frame)))
 
-(defvar kevorr/pt-per-dpi (/ 14 159.0))
+;; On one monitor, which is 14" and 158.2 dpi, I enjoy 14pt
+(defvar kevorr/measured-monitor-inches 14.0)
+(defvar kevorr/measured-monitor-dpi 158.2)
+(defvar kevorr/target-pt 14.0)
+
+(defun kevorr/desired-font-pt (&optional frame)
+  (let* ((pt-per-dpi (/ kevorr/target-pt kevorr/measured-monitor-dpi))
+         (pt-per-sqrt-in (/ kevorr/target-pt (sqrt kevorr/measured-monitor-inches)))
+         (dpi (kevorr/get-dpi frame))
+         (sqrt-in (sqrt (kevorr/frame-monitor-diag-inch frame))))
+    (ceiling
+     (+ (* pt-per-dpi dpi)
+        (* pt-per-sqrt-in sqrt-in))
+     2)))
 
 (setq
- doom-font (font-spec :family "Source Code Pro"
-                      :size (ceiling (* kevorr/pt-per-dpi (kevorr/get-dpi))))
+ ;; doom
+ doom-font (font-spec :family "Source Code Pro" :size (kevorr/desired-font-pt))
  doom-theme 'doom-one
  org-directory "~/Documents/org/"
  display-line-numbers-type t
