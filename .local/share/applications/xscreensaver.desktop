@@ -1,0 +1,7 @@
+[Desktop Entry]
+Terminal=false
+Name=XScreensaver
+Type=Application
+NoDisplay=true
+Exec=xscreensaver -no-splash
+TryExec=xscreensaver
