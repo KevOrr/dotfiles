@@ -75,6 +75,11 @@
         (* pt-per-sqrt-in sqrt-in))
      2)))
 
+(defmacro kevorr/setq-all (&rest syms-and-form)
+  (pcase syms-and-form
+    (`(,val) val)
+    (`(,sym . ,rest) `(setq ,sym (kevorr/setq-all ,@rest)))))
+
 (setq
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (kevorr/desired-font-pt))
@@ -109,6 +114,8 @@
  org-log-into-drawer t
  ;; TODO who is overriding this?
  org-todo-keywords '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)"))
+ org-hierarchical-todo-statistics nil
+ org-checkbox-hierarchical-statistics nil
  ;; org-latex-pdf-process '("latexmk -pdf %f && latexmk -c %f")
  org-latex-packages-alist '(("style=numeric,backend=biber" "biblatex" nil)
                             "\\addbibresource{references.bib}"
@@ -121,9 +128,20 @@
                               ("basicstyle" "\\small\\ttfamily")
                               ("breaklines" "true"))
  org-startup-with-inline-images t
+ _ (kevorr/setq-all
+    reftex-default-bibliography
+    org-ref-default-bibliography
+    bibtex-completion-bibliography
+    bibtex-completion-library-path
+    ebib-file-search-dirs
+    '("~/Documents/org/bib/main.bib"))
+ org-ref-pdf-directory "~/Documents/org/bib.main/bib"
+
+ org-ref-default-bibliography reftex-default-bibliography
 
  ;; org-journal
  org-journal-dir "~/Documents/org/journal"
+ org-journal-file-header "#+STARTUP: showall\n\n"
  org-journal-file-type 'weekly
  org-journal-date-format "%A, %d %B %Y"
  org-journal-time-format "TODO "
