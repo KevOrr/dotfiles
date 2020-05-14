@@ -3,13 +3,7 @@
 
 (setq +exwm-doom-leader "<f20>")
 
-(defun djeis97/exwm-layout-toggle-fullscreen ()
-  "Togggles full screen for Emacs and X windows"
-  (interactive)
-  (if exwm--id
-      (exwm-layout-toggle-fullscreen exwm--id)))
-
-(defun djeis97-exwm/runner (pname pbuffer command)
+(defun +private/exwm-runner (pname pbuffer command)
   (let ((proc (start-process-shell-command pname pbuffer command)))
     (when pbuffer
       (with-current-buffer (process-buffer proc)
@@ -18,17 +12,10 @@
 
 (after! exwm
   (add-hook! (exwm-update-title)
-    (cond
-     ((and (string= "Google-chrome" exwm-class-name) (string-suffix-p "Cookie Clicker" exwm-title))
-      (exwm-workspace-rename-buffer "Cookie Clicker"))
-     ((string= "Vivaldi-stable" exwm-class-name)
-      (exwm-workspace-rename-buffer (format "%s - Vivaldi Stable" exwm-title)))
-     (t (exwm-workspace-rename-buffer exwm-title))))
+    (exwm-workspace-rename-buffer exwm-title))
 
-  (add-to-list 'exwm-manage-configurations
-               '((string= "Uzbl-core" exwm-class-name)
-                 tiling-header-line (:eval (tabbar-line))
-                 tiling-mode-line nil))
+  (setq exwm-systemtray-height 24)
+
   (add-to-list 'exwm-manage-configurations
                '((string= exwm-instance-name "pinentry-gtk-2")
                  char-mode t))
@@ -37,10 +24,13 @@
                  char-mode t))
 
   (exwm-input-set-key (kbd "s-c") #'exwm-input-release-keyboard)
-  (exwm-input-set-key (kbd "s-f") #'djeis97/exwm-layout-toggle-fullscreen)
+  (exwm-input-set-key (kbd "s-f") #'exwm-layout-toggle-fullscreen)
 
-  ;;(add-hook! 'exwm-init-hook
-  ;;  (djeis97-exwm/runner "Dropbox" "*Dropbox*" "dropbox")
-  ;;  (djeis97-exwm/runner "polybar" "*Polybar*" "polybar main")
-  ;;  (djeis97-exwm/runner "dunst" "*Dunst*" "dunst"))
+  (add-hook!
+   'exwm-init-hook
+   (+private/exwm-runner "Slack" "*Slack*" "slack")
+   (+private/exwm-runner "polybar" "*Polybar*" "polybar main")
+   (+private/exwm-runner "dunst" "*Dunst*" "dunst")
+   )
+
   )

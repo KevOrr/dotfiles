@@ -12,6 +12,7 @@
         focus-follows-mouse t)
   ;; disable dialog boxes since they are unusable in exwm
   (setq use-dialog-box nil)
+
   :config
   (add-hook! exwm-mode #'doom-mark-buffer-as-real-h)
   (exwm-input-set-key (kbd (or +exwm-doom-leader doom-leader-alt-key)) doom-leader-map)
@@ -36,7 +37,7 @@
   ;; + Application launcher ('M-&' also works if the output buffer does not
   ;;   bother you). Note that there is no need for processes to be created by
   ;;   Emacs.
-  (exwm-input-set-key (kbd "s-SPC") #'djeis97/exwm-app-launcher)
+  (exwm-input-set-key (kbd "s-SPC") #'+exwm/app-launcher)
   ;; The following example demonstrates how to set a key binding only available
   ;; in line mode. It's simply done by first push the prefix key to
   ;; `exwm-input-prefix-keys' and then add the key sequence to `exwm-mode-map'.
@@ -48,7 +49,7 @@
     (require 'exwm-systemtray)
     (exwm-systemtray-enable)
     (setq exwm-workspace-show-all-buffers nil)
-    (setq exwm-systemtray-height 11))
+    (setq exwm-systemtray-height 16))
 
   (when (featurep! +attached-minibuffer)
     (add-hook! exwm-init #'exwm-workspace-attach-minibuffer))
@@ -56,7 +57,7 @@
   (if (featurep! +managed-randr)
       (progn
         (require 'exwm-randr)
-        (add-hook! (exwm-init exwm-randr-refresh) #'djeis97/exwm-update-randr)
+        (add-hook! (exwm-init exwm-randr-refresh) #'+exwm/update-randr)
         (exwm-randr-enable))
     (setq exwm-workspace-number 1))
 
