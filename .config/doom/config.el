@@ -42,6 +42,8 @@
        "/" #'evil-window-vsplit
        "-" #'evil-window-split))
 
+(after! vterm
+  (evil-define-key 'motion vterm-mode-map [remap evil-paste-after] 'vterm-yank))
 
 (setq
  ;; doom
