@@ -1,23 +1,24 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-(load! "exwm.el")
+(defmacro setq-all (val &rest syms)
+  (pcase syms
+    ('() val)
+    (`(,sym . ,rest) `(setq ,sym (setq-all ,val ,@rest)))))
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
-;; (setq user-full-name ""
-;;       user-mail-address "")
+(load! "exwm.el")
+(load! "smartparens.el")
+(load! "autodpi.el")
+(load! "org-setup.el")
 
 (use-package! open-junk-file
   :custom
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
 
-(after! org
-  (require 'org-ref)
-  (require 'org-ref-ivy-cite)
-  (require 'org-roam-bibtex)
-  (add-hook! org-roam-mode #'org-roam-bibtex-mode)
-  (setq org-preview-latex-default-process 'dvisvgm)
-  (add-hook! org-mode #'auto-fill-mode))
+(defun +private/find-junk-file ()
+  (interactive)
+  (let ((file (format-time-string open-junk-file-format (current-time))))
+    (let ((default-directory (file-name-directory file)))
+      (counsel-find-file (file-name-base file)))))
 
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
@@ -30,59 +31,21 @@
       (:prefix "n"
        ;; org-journal
        (:prefix "j"
-        :desc "Open Journal" "o" (lambda () (interactive) (org-journal-new-entry 0))))
+        :desc "Open Journal" "o" (lambda! (org-journal-new-entry 0))))
 
       ;; Files
       (:prefix "f"
-       "J" #'open-junk-file)
+       "J" #'+private/find-junk-file)
 
       ;; Windows
       (:prefix "w"
        "/" #'evil-window-vsplit
        "-" #'evil-window-split))
 
-;; https://emacs.stackexchange.com/a/44930
-(defun kevorr//pyth (w h)
-  (sqrt (+ (* w w)
-           (* h h))))
-
-(defun kevorr/frame-monitor-diag-pixels (&optional frame)
-  (cl-destructuring-bind (_ _ w h) (frame-monitor-geometry frame)
-    (kevorr//pyth w h)))
-
-(defun kevorr/frame-monitor-diag-inch (&optional frame)
-  (cl-destructuring-bind (w h) (frame-monitor-attribute 'mm-size frame)
-    (/ (kevorr//pyth w h)
-       25.4)))
-
-(defun kevorr/get-dpi (&optional frame)
-  "Get the DPI of FRAME (or current if nil)."
-  (/ (kevorr/frame-monitor-diag-pixels frame)
-     (kevorr/frame-monitor-diag-inch frame)))
-
-;; On one monitor, which is 14" and 158.2 dpi, I enjoy 14pt
-(defvar kevorr/measured-monitor-inches 14.0)
-(defvar kevorr/measured-monitor-dpi 158.2)
-(defvar kevorr/target-pt 14.0)
-
-(defun kevorr/desired-font-pt (&optional frame)
-  (let* ((pt-per-dpi (/ kevorr/target-pt kevorr/measured-monitor-dpi))
-         (pt-per-sqrt-in (/ kevorr/target-pt (sqrt kevorr/measured-monitor-inches)))
-         (dpi (kevorr/get-dpi frame))
-         (sqrt-in (sqrt (kevorr/frame-monitor-diag-inch frame))))
-    (ceiling
-     (+ (* pt-per-dpi dpi)
-        (* pt-per-sqrt-in sqrt-in))
-     2)))
-
-(defmacro kevorr/setq-all (&rest syms-and-form)
-  (pcase syms-and-form
-    (`(,val) val)
-    (`(,sym . ,rest) `(setq ,sym (kevorr/setq-all ,@rest)))))
 
 (setq
  ;; doom
- doom-font (font-spec :family "Source Code Pro" :size (kevorr/desired-font-pt))
+ doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
  doom-theme 'doom-one
 
  ;; t was buggy
@@ -107,59 +70,6 @@
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
  flycheck-pylintrc (expand-file-name "~/.pylintrc")
-
- ;; org
- org-directory "~/Documents/org/"
- org-image-actual-width nil
- org-log-into-drawer t
- ;; TODO who is overriding this?
- org-todo-keywords '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)"))
- org-hierarchical-todo-statistics nil
- org-checkbox-hierarchical-statistics nil
- ;; org-latex-pdf-process '("latexmk -pdf %f && latexmk -c %f")
- org-latex-packages-alist '(("style=numeric,backend=biber" "biblatex" nil)
-                            "\\addbibresource{references.bib}"
-                            ("" "listings" nil)
-                            ("" "sourcecodepro" nil)
-                            ("" "mathtools" nil)
-                            ("" "mathabx" nil))
- org-latex-listings nil
- org-latex-listings-options '(("prebreak" "\\dlsh")
-                              ("basicstyle" "\\small\\ttfamily")
-                              ("breaklines" "true"))
- org-startup-with-inline-images t
- _ (kevorr/setq-all
-    reftex-default-bibliography
-    org-ref-default-bibliography
-    bibtex-completion-bibliography
-    bibtex-completion-library-path
-    ebib-file-search-dirs
-    '("~/Documents/org/bib/main.bib"))
- org-ref-pdf-directory "~/Documents/org/bib.main/bib"
-
- org-ref-default-bibliography reftex-default-bibliography
-
- ;; org-journal
- org-journal-dir "~/Documents/org/journal"
- org-journal-file-header "#+STARTUP: showall\n\n"
- org-journal-file-type 'weekly
- org-journal-date-format "%A, %d %B %Y"
- org-journal-time-format "TODO "
- org-journal-file-format "%Y-%m-%d.org"
- org-journal-enable-agenda-integration t
- ;; org-journal-enable-cache t
- org-journal-hide-entries-p nil
- ;; carry over all TO-DO items that are not in a "done"-like state
- org-journal-carryover-items "/!"
- org-journal-search-results-order-by :desc
-
- ;; org-babel
- org-babel-load-languages '((python . t)
-                            (shell . t)
-                            (dot . t)
-                            (emacs-lisp . t)
-                            (lisp . t))
- ;; org-confirm-babel-evaluate 'personal-layer/org-confirm-babel-evaluate
 
  processing-location (expand-file-name "~/.local/share/processing/processing-java")
  processing-application-dir (expand-file-name "~/.local/share/processing")
