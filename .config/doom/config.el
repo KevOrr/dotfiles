@@ -20,6 +20,9 @@
     (let ((default-directory (file-name-directory file)))
       (counsel-find-file (file-name-base file)))))
 
+(map! :map ivy-minibuffer-map
+      "C-h" #'ivy-backward-kill-word)
+
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
       :desc "M-x" "<f20>" #'counsel-M-x
