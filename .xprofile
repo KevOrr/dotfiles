@@ -1,6 +1,6 @@
 setxkbmap -option "ctrl:swapcaps"
 xmodmap -e "keycode any = F20"
-xcape -e "#66=F20"
+xcape -e "Super_L=F20"
 
 export XMODIFIERS=@im=exim
 export GTK_IM_MODULE=xim
@@ -9,6 +9,6 @@ export CLUTTER_IM_MODULE=xim
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # TODO investigate why this is necessary while running gnome
-if [[ "${DESKTOP_SESSION,,}" =~ gnome ]]; then
+if [[ "$DESKTOP_SESSION" && "${DESKTOP_SESSION,,}" =~ gnome ]]; then
     xhost +local:
 fi
