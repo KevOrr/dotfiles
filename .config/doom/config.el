@@ -18,7 +18,7 @@
   (interactive)
   (let ((file (format-time-string open-junk-file-format (current-time))))
     (let ((default-directory (file-name-directory file)))
-      (counsel-find-file (file-name-base file)))))
+      (counsel-find-file (file-name-nondirectory file)))))
 
 (map! :map ivy-minibuffer-map
       "C-h" #'ivy-backward-kill-word)
