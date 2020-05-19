@@ -10,6 +10,9 @@
 (load! "autodpi.el")
 (load! "org-setup.el")
 
+(after! magit
+  (magit-wip-mode +1))
+
 (use-package! open-junk-file
   :custom
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
@@ -55,10 +58,6 @@
 
  ;; t was buggy
  posframe-mouse-banish nil
-
- ;; magit
- magit-wip-mode t
- magit-wip-merge-branch t
 
  display-line-numbers-type t
  +treemacs-git-mode 'deferred
