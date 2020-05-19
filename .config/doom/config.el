@@ -56,6 +56,10 @@
  ;; t was buggy
  posframe-mouse-banish nil
 
+ ;; magit
+ magit-wip-mode t
+ magit-wip-merge-branch t
+
  display-line-numbers-type t
  +treemacs-git-mode 'deferred
  ivy-magic-tilde nil
