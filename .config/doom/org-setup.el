@@ -40,6 +40,11 @@
  org-roam-graph-executable "dot"
  org-roam-graph-extra-config '(("rankdir" . "LR"))
  org-roam-graph-viewer "chromium"
+ org-roam-capture-templates '(("d" "default" plain #'org-roam-capture--get-point
+                               "%?"
+                               :file-name "%<%Y%m%d>-${slug}"
+                               :head "#+TITLE: ${title}\n#+STARTUP: showall\n-tags :: \n\n"
+                               :unnarrowed t))
 
  ;; org-journal
  org-journal-dir (concat (file-name-as-directory org-roam-directory) "journal")
