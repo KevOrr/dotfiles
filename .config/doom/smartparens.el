@@ -13,16 +13,17 @@
       (evil-open-below 1))))
 
 (map!
- "s-w" #'sp-wrap-round
- "s-)" #'sp-wrap-round
- "s-]" #'sp-wrap-square
- "s-}" #'sp-wrap-curly
- "s-W" #'sp-unwrap-sexp
- "s-s" #'sp-forward-slurp-sexp
- "s-S" #'sp-backward-slurp-sexp
- "s-b" #'sp-forward-barf-sexp
- "s-B" #'sp-backward-barf-sexp
- "s-r" #'sp-raise-sexp
- "s-t" #'sp-split-sexp
- "s-T" #'sp-join-sexp
- "s-o" #'+private/open-below-sexp-or-line)
+ :prefix ("gk" . "smartparens")
+ :n "w" #'sp-wrap-round
+ :n ")" #'sp-wrap-round
+ :n "]" #'sp-wrap-square
+ :n "}" #'sp-wrap-curly
+ :n "W" #'sp-unwrap-sexp
+ :n "s" #'sp-forward-slurp-sexp
+ :n "S" #'sp-backward-slurp-sexp
+ :n "b" #'sp-forward-barf-sexp
+ :n "B" #'sp-backward-barf-sexp
+ :n "r" #'sp-raise-sexp
+ :n "t" #'sp-split-sexp
+ :n "T" #'sp-join-sexp
+ :n "o" #'+private/open-below-sexp-or-line)
