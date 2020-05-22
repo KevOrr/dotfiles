@@ -42,8 +42,13 @@
  org-roam-graph-viewer "chromium"
  org-roam-capture-templates '(("d" "default" plain #'org-roam-capture--get-point
                                "%?"
-                               :file-name "%<%Y%m%d>-${slug}"
-                               :head "#+TITLE: ${title}\n#+STARTUP: showall\n- tags :: \n\n"
+                               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                               :head "#+TITLE: ${title}\n#+DATE: %<%Y-%m-%d %H:%M:%S>\n#+STARTUP: showall\n- tags :: "
+                               :unnarrowed t)
+                              ("t" "tag" plain #'org-roam-capture--get-point
+                               "%?"
+                               :file-name "tag:${slug}"
+                               :head "#+TITLE: tag:${title}\n- tags :: "
                                :unnarrowed t))
 
  ;; org-journal
