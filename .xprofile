@@ -1,6 +1,6 @@
 setxkbmap -option "ctrl:swapcaps"
 xmodmap -e "keycode any = F20"
-xcape -e "Super_L=F20"
+xcape -e "Ctrl_L=F20"
 
 export XMODIFIERS=@im=exim
 export GTK_IM_MODULE=xim
