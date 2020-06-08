@@ -11,3 +11,5 @@
 (package! ebib)
 (package! org-roam-bibtex)
 (package! ivy-bibtex)
+
+(package! git-auto-commit-mode)

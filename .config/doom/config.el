@@ -16,6 +16,19 @@
 (use-package! open-junk-file
   :custom
   (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
+(use-package! git-auto-commit-mode
+  :defer t
+  :init
+  (push '(git-auto-commit-mode +1) safe-local-eval-forms)
+  (pushnew! safe-local-variable-values
+            '(gac-automatically-push-p . t)
+            '(gac-automatically-push-p . nil)
+            '(gac-automatically-add-new-files-p . t)
+            '(gac-automatically-add-new-files-p . nil))
+  :config
+  (setq gac-automatically-push-p nil)
+  (setq gac-automatically-add-new-files-p nil))
+
 
 (defun +private/find-junk-file ()
   (interactive)
