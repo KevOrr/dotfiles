@@ -14,8 +14,9 @@
   (magit-wip-mode +1))
 
 (use-package! open-junk-file
-  :custom
-  (open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
+  :config
+  (setq open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
+
 (use-package! git-auto-commit-mode
   :defer t
   :init
