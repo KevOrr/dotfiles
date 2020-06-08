@@ -185,4 +185,4 @@
        (default +bindings +smartparens))
 
 (setq doom-localleader-key ","
-      which-key-idle-delay 0.0)
+      which-key-idle-delay 0.3)
