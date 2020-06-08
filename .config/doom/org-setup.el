@@ -1,5 +1,7 @@
 ;;; ~/.config/doom/org.el -*- lexical-binding: t; -*-
 
+(require 's)
+
 (after! org
   (require 'org-ref)
   (require 'org-ref-ivy-cite)
@@ -9,7 +11,8 @@
   (add-hook! org-mode #'auto-fill-mode)
   (setq
    org-todo-keywords
-   '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)")))
+   '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "KILL(k)"))
+   )
   )
 
 (setq
@@ -40,16 +43,30 @@
  org-roam-graph-executable "dot"
  org-roam-graph-extra-config '(("rankdir" . "LR"))
  org-roam-graph-viewer "chromium"
- org-roam-capture-templates '(("d" "default" plain #'org-roam-capture--get-point
-                               "%?"
-                               :file-name "%<%Y%m%d%H%M%S>-${slug}"
-                               :head "#+TITLE: ${title}\n#+DATE: %<%Y-%m-%d %H:%M:%S>\n#+STARTUP: showall\n- tags :: "
-                               :unnarrowed t)
-                              ("t" "tag" plain #'org-roam-capture--get-point
-                               "%?"
-                               :file-name "tag:${slug}"
-                               :head "#+TITLE: tag:${title}\n- tags :: "
-                               :unnarrowed t))
+ org-roam-capture-templates
+ (let ((timestamp "%<%Y%m%d%H%M%S>")
+       (head (s-join
+              "\n"
+              '("#+TITLE: ${title}"
+                "#+DATE: %<%Y-%m-%d %H:%M:%S>"
+                "#+STARTUP: showall"
+                ""
+                "- tags :: "))))
+   `(("d" "default" plain #'org-roam-capture--get-point
+      "%?"
+      :file-name ,(concat timestamp "-${slug}")
+      :head ,head
+      :unnarrowed t)
+     ("w" "work" plain #'org-roam-capture--get-point
+      "%?"
+      :file-name ,(concat "work/" timestamp "-${slug}")
+      :head ,head
+      :unnarrowed t)
+     ("p" "private" plain #'org-roam-capture--get-point
+      "%?"
+      :file-name ,(concat "private/" timestamp "-${slug}")
+      :head ,head
+      :unnarrowed t)))
 
  ;; org-journal
  org-journal-dir (concat (file-name-as-directory org-roam-directory) "journal")
