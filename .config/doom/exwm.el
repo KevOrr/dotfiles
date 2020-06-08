@@ -10,6 +10,17 @@
         (comint-mode)
         (doom-mark-buffer-as-real-h)))))
 
+(defun +private/run-screen-layout ()
+  (interactive)
+  (ivy-read "Choose screen layout from ~/.screenlayout: "
+            (remove-if (lambda (s) (member s '("." "..")))
+                       (directory-files "~/.screenlayout/"))
+            :require-match t
+            :action '(0
+                      ("o" (lambda (f) (call-process (concat "~/.screenlayout/" f) nil 0)) "run")
+                      ("v" (lambda (f) (find-file (concat "~/.screenlayout/" f))) "view"))
+            :caller '+private/run-screen-layout))
+
 (after! exwm
   (add-hook! (exwm-update-title)
     (exwm-workspace-rename-buffer exwm-title))

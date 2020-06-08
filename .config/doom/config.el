@@ -44,8 +44,9 @@
       :desc "M-x" "SPC" #'counsel-M-x
       :desc "M-x" "<f20>" #'counsel-M-x
 
-      (:prefix-map ("a" . "applications")
-       :desc "Launch application" "a" #'counsel-linux-app)
+      (:prefix ("a" . "applications")
+       :desc "Launch application" "a" #'counsel-linux-app
+       :desc "Run screen layout" "s" #'+private/run-screen-layout)
 
       ;; Notes
       (:prefix "n"
