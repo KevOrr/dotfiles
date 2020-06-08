@@ -69,7 +69,7 @@
       :unnarrowed t)))
 
  ;; org-journal
- org-journal-dir (concat (file-name-as-directory org-roam-directory) "journal")
+ org-journal-dir (concat (file-name-as-directory org-directory) "journal")
  org-journal-file-header "#+TITLE: %Y-%m-%d\n#+STARTUP: showall\n\n"
  org-journal-file-type 'weekly
  org-journal-date-format "%A, %d %B %Y"
