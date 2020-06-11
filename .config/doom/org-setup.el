@@ -15,6 +15,10 @@
    )
   )
 
+(pushnew! safe-local-variable-values
+          '(+org-roam-open-buffer-on-find-file . t)
+          '(+org-roam-open-buffer-on-find-file . nil))
+
 (setq
  ;; org
  org-directory "~/org/"
