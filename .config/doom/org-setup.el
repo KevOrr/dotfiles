@@ -19,6 +19,14 @@
           '(+org-roam-open-buffer-on-find-file . t)
           '(+org-roam-open-buffer-on-find-file . nil))
 
+(after! org-download
+  (setq
+   org-download-method 'directory
+   org-download-image-dir "img"
+   org-download-screenshot-method "gnome-screenshot -a -f %s"
+   )
+  )
+
 (setq
  ;; org
  org-directory "~/org/"
