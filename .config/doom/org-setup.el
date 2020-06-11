@@ -2,10 +2,13 @@
 
 (require 's)
 
+(use-package! org-roam-server)
+
 (after! org
   (require 'org-ref)
   (require 'org-ref-ivy-cite)
   (require 'org-roam-bibtex)
+  (require 'org-roam-protocol)
   (add-hook! org-roam-mode #'org-roam-bibtex-mode)
   (setq org-preview-latex-default-process 'dvisvgm)
   (add-hook! org-mode #'auto-fill-mode)
