@@ -37,6 +37,7 @@
  org-startup-with-inline-images t
 
  ;; org-roam
+ +org-roam-open-buffer-on-find-file nil
  org-roam-directory (concat (file-name-as-directory org-directory) "roam")
  org-roam-link-title-format "R:%s"
  org-roam-graph-exclude-matcher '("private" "journal")
