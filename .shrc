@@ -145,7 +145,6 @@ if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.in
 if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then . ~/google-cloud-sdk/completion.zsh.inc; fi
 
 # From http://paste.linux.chat/view/c86fbe5f (credit to CHVNX in freenode ##linux)
-
 alias ga='git add'
 alias gaa='git add --all'
 alias gb='git branch'
@@ -170,3 +169,8 @@ alias grt='cd $(y=$(git rev-parse --show-toplevel 2>/dev/null); echo ${y:-.})'
 alias grv='git remote -v'
 alias gs='git status -s'
 alias gss='git status'
+
+alias sc=systemctl
+alias jc=journalctl
+alias scu='systemctl --user'
+alias jcu='journalctl --user'
