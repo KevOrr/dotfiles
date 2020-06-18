@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -e
+
+USAGE="\
+USAGE: $0 [dir]
+
+    dir    Path to doom installation. Defaults to ~/.emacs.d
+"
+
+case "$1" in
+    -h|--help) printf "%s" "$USAGE"; exit 0
+esac
+
+doomlocation="${1:-$HOME/.emacs.d}"
+doomlocaldir="${DOOMLOCALDIR:-$doomlocation/.local}"
+doom="$doomlocation/bin/doom"
+function doom { "$doom" "$@"; }
+
+if ! [ -f "$doom" -a -x "$doom" ]; then
+    printf "No such file or not executable: %s\n\n" "$doom" >&2
+    printf "%s" "$USAGE" >&2
+    exit 1
+fi
+
+while ! doom sync; do sleep 1; done
+
+if [ -d "$doomlocaldir/straight/build/vterm" ]; then
+    # https://github.com/akermu/emacs-libvterm#manual-installation
+    pushd "$doomlocaldir/straight/build/vterm" >/dev/null
+    mkdir -p build
+    cd build
+    cmake ..
+    make
+    popd >/dev/null
+fi
+
+if [ -d "$doomlocaldir/straight/build/pdf-tools" ]; then
+    # https://github.com/politza/pdf-tools/blob/c510442ab89c8a9e9881230eeb364f4663f59e76/lisp/pdf-tools.el#L330-L339
+    pushd "$doomlocaldir/straight/build/pdf-tools" >/dev/null
+    build/server/autobuild -D -i "$doomlocaldir/straight/build/pdf-tools/"
+    popd >/dev/null
+fi
