@@ -12,4 +12,5 @@
 
 [push]
         default = current
-
+[pull]
+        rebase = merges
