@@ -60,7 +60,8 @@
  org-roam-graph-extra-config '(("rankdir" . "LR"))
  org-roam-graph-viewer "chromium"
  org-roam-capture-templates
- (let* ((head '("#+TITLE: ${title}"
+ (let* ((timestamp "%<%Y%m%d%H%M%S>")
+        (head '("#+TITLE: ${title}"
                 "#+DATE: %<%Y-%m-%d %H:%M:%S>"
                 "#+STARTUP: showall"))
         (make-head (lambda (&rest lines) (s-join "\n" (append head lines '("" ""))))))
