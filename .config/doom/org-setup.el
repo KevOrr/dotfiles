@@ -60,28 +60,46 @@
  org-roam-graph-extra-config '(("rankdir" . "LR"))
  org-roam-graph-viewer "chromium"
  org-roam-capture-templates
- (let ((timestamp "%<%Y%m%d%H%M%S>")
-       (head (s-join
-              "\n"
-              '("#+TITLE: ${title}"
+ (let* ((head '("#+TITLE: ${title}"
                 "#+DATE: %<%Y-%m-%d %H:%M:%S>"
-                "#+STARTUP: showall"
-                ""
-                "- tags :: "))))
+                "#+STARTUP: showall"))
+        (make-head (lambda (&rest lines) (s-join "\n" (append head lines '("" ""))))))
    `(("d" "default" plain #'org-roam-capture--get-point
       "%?"
       :file-name ,(concat timestamp "-${slug}")
-      :head ,head
+      :head ,(funcall
+              make-head
+              ""
+              "- tags :: "
+              "- links"
+              "  - ")
       :unnarrowed t)
-     ("w" "work" plain #'org-roam-capture--get-point
+     ("t" "talk" plain #'org-roam-capture--get-point
       "%?"
-      :file-name ,(concat "work/" timestamp "-${slug}")
-      :head ,head
+      :file-name ,(concat "talks/" timestamp "-${slug}")
+      :head ,(funcall
+              make-head
+              "#+ROAM_KEY: "
+              ""
+              "- speaker :: "
+              "- venue :: ")
       :unnarrowed t)
-     ("p" "private" plain #'org-roam-capture--get-point
+     ("p" "paper" plain #'org-roam-capture--get-point
+      "%?"
+      :file-name ,(concat "papers/" timestamp "-${slug}")
+      :head ,(funcall
+              make-head
+              "#+ROAM_KEY: ")
+      :unnarrowed t)
+     ("P" "private" plain #'org-roam-capture--get-point
       "%?"
       :file-name ,(concat "private/" timestamp "-${slug}")
-      :head ,head
+      :head ,(funcall
+              make-head
+              ""
+              "- tags :: "
+              "- links"
+              "  - ")
       :unnarrowed t)))
 
  ;; org-journal
