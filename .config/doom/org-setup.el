@@ -55,7 +55,7 @@
  +org-roam-open-buffer-on-find-file nil
  org-roam-directory (concat (file-name-as-directory org-directory) "roam")
  org-roam-link-title-format "R:%s"
- org-roam-graph-exclude-matcher '("private" "journal")
+ org-roam-graph-exclude-matcher '("private")
  org-roam-graph-executable "dot"
  org-roam-graph-extra-config '(("rankdir" . "LR"))
  org-roam-graph-viewer "chromium"
