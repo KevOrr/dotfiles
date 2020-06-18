@@ -11,3 +11,6 @@
 (package! ivy-bibtex)
 
 (package! git-auto-commit-mode)
+
+(package! eaf
+  :recipe (:host github :repo "manateelazycat/emacs-application-framework"))

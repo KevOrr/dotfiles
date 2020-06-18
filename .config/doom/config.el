@@ -30,6 +30,9 @@
   (setq gac-automatically-push-p nil)
   (setq gac-automatically-add-new-files-p nil))
 
+(use-package! eaf
+  :load-path (lambda () (concat doom-local-dir "straight/repos/emacs-application-framework"))
+  :hook (eaf-mode . doom-mark-buffer-as-real-h))
 
 (defun +private/find-junk-file ()
   (interactive)
