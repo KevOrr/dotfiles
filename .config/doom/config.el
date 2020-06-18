@@ -52,7 +52,7 @@
       (:prefix "n"
        ;; org-journal
        (:prefix "j"
-        :desc "Open Journal" "o" (lambda! (org-journal-new-entry 0))))
+        :desc "Open Journal" "o" (cmd! (org-journal-new-entry 0))))
 
       ;; Files
       (:prefix "f"
