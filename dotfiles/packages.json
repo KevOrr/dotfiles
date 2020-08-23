@@ -1,0 +1,84 @@
+{
+    "base": {
+        "*": [
+            "git",
+            "htop",
+            "mlocate",
+            "tmux",
+            "zsh"
+        ],
+        "ubuntu|arch": ["vim"],
+        "fedora": ["vim-enhanced"]
+    },
+    "Build essentials": {
+        "ubuntu": ["build-essential"],
+        "fedora": ["@development-tools", "g++"],
+        "arch": ["base-devel"]
+    },
+    "gdb": {
+        "*": ["gdb"]
+    },
+    "Chromium": {
+        "*": ["chromium"],
+        "fedora|ubuntu": ["gnome-tweak-tool"],
+        "arch": ["gnome-tweaks"]
+    },
+    "Gnome shell integration for Chrome/Firefox/Opera/Vivaldi/etc (chrome-gnome-shell)": {
+        "*": ["chrome-gnome-shell"]
+    },
+    "pavucontrol": {
+        "*": ["pavucontrol"]
+    },
+    "Emacs": {
+        "*": ["emacs"]
+    },
+    "ripgrep": {
+        "*": ["ripgrep"]
+    },
+    "sbcl": {
+        "*": ["sbcl"]
+    },
+    "CTF tools": {
+        "*": [
+            "binwalk",
+            "steghide",
+            "john",
+            "capstone",
+            "nmap"
+        ],
+        "fedora": ["perl-Image-ExifTool"],
+        "ubuntu": ["libimage-exiftool-perl"],
+        "arch": ["perl-image-exiftool"]
+    },
+    "TeX Live": {
+        "ubuntu": [
+            "texlive",
+            "texlive-base",
+            "texlive-latex-recommended",
+            "texlive-latex-extra"
+        ],
+        "fedora": [
+            "texlive-scheme-basic",
+            "texlive-collection-basic",
+            "texlive-collection-latex",
+            "texlive-collection-latexextra",
+            "texlive-collection-latexrecommended"
+        ],
+        "arch": [
+            "texlive-core",
+            "texlive-latexextra",
+            "texlive-bibtexextra",
+            "texlive-formatextra",
+            "texlive-latexextra",
+            "texlive-pictures",
+            "texlive-pstricks",
+            "texlive-publishers",
+            "texlive-science"
+        ]
+    },
+    "Wireshark": {
+        "ubuntu": ["wireshark"],
+        "fedora": ["wireshark", "wireshark-qt"],
+        "arch": ["wireshark-cli", "wireshark-qt"]
+    }
+}
