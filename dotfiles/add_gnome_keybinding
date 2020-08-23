@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+# https://askubuntu.com/questions/597395/how-to-set-custom-keyboard-shortcuts-from-terminal
+
+import argparse
+import typing as t
+import re
+import itertools as it
+from gi.repository import Gio
+
+BINDING_SCHEMA_ID = 'org.gnome.settings-daemon.plugins.media-keys.custom-keybinding'
+BINDINGS_PATH_FMT = '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/{}/'
+
+mk_schema = Gio.Settings(schema='org.gnome.settings-daemon.plugins.media-keys')
+
+def get_binding_ids() -> t.Set[str]:
+    paths = mk_schema['custom-keybindings']
+    id_pattern = re.compile(r'/([^/]+)/?$')
+    ids = {match.group(1) for match in (id_pattern.search(path) for path in paths) if match}
+    return ids
+
+def get_new_id(old_ids: t.Container[str]) -> str:
+    for i in it.count():
+        new_id = f'custom{i}'
+        if new_id not in old_ids:
+            return new_id
+
+    assert False
+
+def create_binding(binding_id: str, name: str, command: str, binding: str) -> None:
+    new_binding_path = BINDINGS_PATH_FMT.format(binding_id)
+
+    new_binding = Gio.Settings(schema=BINDING_SCHEMA_ID, path=new_binding_path)
+    new_binding['name'] = name
+    new_binding['command'] = command
+    new_binding['binding'] = binding
+
+    mk_schema['custom-keybindings'] += [new_binding_path]
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description='Create a new custom keybinding in gnome-shell')
+    parser.add_argument('name', help='Name of the custom keybinding')
+    parser.add_argument('command', help='The shell command to run for this keybinding')
+    parser.add_argument('binding', help='The key chord that activates this keybinding (e.g. "<Alt><Shift>r", "<Primary><Super>space")')
+    args = parser.parse_args()
+
+    new_id = get_new_id(get_binding_ids())
+    create_binding(new_id, args.name, args.command, args.binding)
+
+if __name__ == '__main__':
+    main()
