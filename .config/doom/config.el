@@ -49,6 +49,7 @@
 
       (:prefix ("a" . "applications")
        :desc "Launch application" "a" #'counsel-linux-app
+       :desc "List processes" "p" #'list-processes
        :desc "Run screen layout" "s" #'+private/run-screen-layout)
 
       ;; Notes
