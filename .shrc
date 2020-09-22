@@ -14,6 +14,10 @@ if [ -d "$HOME/.local/share/binaryninja/python" ]; then
     export PYTHONPATH="$PYTHONPATH:$HOME/.local/share/binaryninja/python"
 fi
 
+if [ -d "$HOME/.local/share/binaryninja/plugins" ]; then
+    export BINJA_PLUGINS="$HOME/.local/share/binaryninja/plugins"
+fi
+
 [ -d ~/.local/bin ] && ! test "${PATH#*$HOME/.local/bin}" != "$PATH" && PATH="$HOME/.local/bin:$PATH"
 
 # COLORS
