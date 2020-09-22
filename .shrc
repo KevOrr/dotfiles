@@ -57,6 +57,7 @@ alias ll='ls -lF'
 alias la='ls -A'
 alias lal='ls -alF'
 alias l='ls -CF'
+function path { echo "$PATH" | tr ':' '\n'; }
 
 alias o='xdg-open'
 alias c=clear
