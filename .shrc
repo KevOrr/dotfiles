@@ -1,5 +1,30 @@
 # My rc file for common bash and zsh setup
 
+function pathappend {
+    for arg in "$@"; do
+        if [ -d "$arg" ] && [[ ":$PATH:" != *":$arg:"* ]]; then
+            PATH="${PATH:+"$PATH:"}$arg"
+        fi
+    done
+}
+
+function pathprepend {
+    for ((i=$#; i>0; i--)); do
+        arg="${@:$i:1}"
+        if [ -d "$arg" ] && [[ ":$PATH:" != *":$arg:"* ]]; then
+            PATH="$arg${PATH:+":$PATH"}"
+        fi
+    done
+}
+
+# set PATH so it includes user's private bin if it exists
+pathprepend "$HOME/.local/bin"
+
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    pathprepend "$PYENV_ROOT/bin" "$PYENV_ROOT/shims"
+fi
+
 # Is this an ssh session?
 # https://unix.stackexchange.com/a/9607/77627
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
@@ -11,14 +36,12 @@ else
 fi
 
 if [ -d "$HOME/.local/share/binaryninja/python" ]; then
-    export PYTHONPATH="$PYTHONPATH:$HOME/.local/share/binaryninja/python"
+    export PYTHONPATH="${PYTHONPATH:+"$PYTHONPATH:"}$HOME/.local/share/binaryninja/python"
 fi
 
 if [ -d "$HOME/.local/share/binaryninja/plugins" ]; then
     export BINJA_PLUGINS="$HOME/.local/share/binaryninja/plugins"
 fi
-
-[ -d ~/.local/bin ] && ! test "${PATH#*$HOME/.local/bin}" != "$PATH" && PATH="$HOME/.local/bin:$PATH"
 
 # COLORS
 
@@ -123,15 +146,11 @@ function ifsniff {
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
-# EXTERNAL DEPENDENCIES
+# PATH
 
 if [ -d "/usr/local/cuda" ]; then
    export CUDA_HOME="/usr/local/cuda"
-   if [[ -n $LD_LIBRARY_PATH ]]; then
-       export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
-   else
-       export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
-   fi
+   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+"$LD_LIBRARY_PATH:"}$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64"
 fi
 
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
@@ -139,9 +158,16 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
 fi
 
 if command -v pyenv >/dev/null; then
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+    emulate zsh -c 'eval "$(pyenv init -)"' 2>/dev/null || eval "$(pyenv init -)"
+    emulate zsh -c 'eval "$(pyenv virtualenv-init -)"' 2>/dev/null || eval "$(pyenv virtualenv-init -)"
 fi
+
+if ruby --version >/dev/null && gem --version >/dev/null; then
+    pathprepend "$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+fi
+
+pathprepend "$HOME/.poetry/bin:$PATH"
+pathprepend "$HOME/.cabal/bin" "$HOME/.ghcup/bin"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then . ~/google-cloud-sdk/path.zsh.inc; fi

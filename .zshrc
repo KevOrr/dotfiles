@@ -1,4 +1,8 @@
-[ -f ~/.shrc ] && source ~/.shrc
+if [ -f ~/.shrc ]; then
+    emulate bash
+    source ~/.shrc
+    emulate zsh
+fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH

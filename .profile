@@ -8,22 +8,12 @@
 # for ssh logins, install and configure the libpam-umask package.
 umask 077
 
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
 	. "$HOME/.bashrc"
     fi
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 if [ -x /usr/bin/emacsclient ]; then
@@ -36,11 +26,6 @@ elif [ -x /usr/bin/nano ]; then
     export EDITOR='/usr/bin/nano'
 fi
 
-if [ -d "$HOME/.pyenv" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
-fi
-
 export SUDO_EDITOR="$EDITOR"
 export VISUAL="$EDITOR"
 
@@ -50,3 +35,6 @@ eval `ssh-agent`
 if [ -r ~/.opam/opam-init/init.sh ]; then
    . ~/.opam/opam-init/init.sh >/dev/null 2> /dev/null
 fi
+
+if [ -e /home/kevin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/kevin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
