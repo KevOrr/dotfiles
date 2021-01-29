@@ -106,8 +106,4 @@
  flycheck-ghc-args '("-Wall" "-Wmissing-exported-signatures" "-Wcompat" "-Widentities"
                      "-Wredundant-constraints" "-Wmissed-specialisations"))
 
-(custom-set-faces
- '(slime-highlight-edits-face ((t (:background "gray10"))))
- '(proof-locked-face ((t (:background "gray10")))))
-
 (load! "config.local.el" nil t)
