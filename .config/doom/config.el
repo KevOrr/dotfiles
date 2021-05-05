@@ -54,6 +54,28 @@
 (map! :map ivy-minibuffer-map
       "C-h" #'ivy-backward-kill-word)
 
+(use-package! format-all
+  :defer t
+  :config
+  (define-format-all-formatter ormolu
+    (:executable "ormolu")
+    (:install "cabal install ormolu")
+    (:languages "Haskell" "Literate Haskell")
+    (:format (format-all--buffer-easy executable)))
+
+  (define-format-all-formatter formolu
+    (:executable "formolu")
+    (:install "cabal install formolu")
+    (:languages "Haskell" "Literate Haskell")
+    (:format (format-all--buffer-easy executable)))
+
+  (setq-default format-all-formatters
+                '(("Python" yapf)
+                  ("Haskell" formolu)
+                  )))
+
+(setq-hook! 'haskell-mode-hook +format-with :none)
+
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
       :desc "M-x" "<f20>" #'counsel-M-x

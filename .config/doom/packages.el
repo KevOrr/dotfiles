@@ -6,6 +6,7 @@
 ;; util
 (package! flycheck-pos-tip)
 (package! open-junk-file)
+(package! format-all :pin "498cf73ddcf9f3c8b9400b16a5ee1272fb95e326")
 
 ;; org
 (package! org-ref)
