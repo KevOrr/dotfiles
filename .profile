@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 umask 077
 
+# set PATH so it includes user's private bin if it exists
+export PATH="$HOME/.local/bin${PATH:+:$PATH}"
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists

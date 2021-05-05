@@ -17,9 +17,6 @@ function pathprepend {
     done
 }
 
-# set PATH so it includes user's private bin if it exists
-pathprepend "$HOME/.local/bin"
-
 if [ -d "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     pathprepend "$PYENV_ROOT/bin" "$PYENV_ROOT/shims"
