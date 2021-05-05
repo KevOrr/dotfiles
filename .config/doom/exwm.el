@@ -40,8 +40,7 @@
   (add-hook!
    'exwm-init-hook
    (+private/exwm-runner "Slack" "*Slack*" "slack")
-   (+private/exwm-runner "polybar" "*Polybar*" "polybar main")
-   (+private/exwm-runner "dunst" "*Dunst*" "dunst")
-   )
+   (+private/exwm-runner "polybar" "*Polybar*" "polybar -r main")
+   (+private/exwm-runner "dunst" "*Dunst*" "dunst"))
 
   )
