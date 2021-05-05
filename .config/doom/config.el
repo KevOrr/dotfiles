@@ -11,6 +11,16 @@
 (load! "org-setup.el")
 (load! "coq.el")
 
+;; Uncomment in order to "permanently" show workspaces list in minibuffer
+;; (after! persp-mode
+;;   (defun display-workspaces-in-minibuffer ()
+;;     ;; (with-current-buffer " *Minibuf-0*"
+;;     ;;   (erase-buffer)
+;;     ;;   (insert (+workspace--tabline)))
+;;     )
+;;   (run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
+;;   (+workspace/display))
+
 (after! magit
   (magit-wip-mode +1))
 
