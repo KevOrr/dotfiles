@@ -1,6 +1,8 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+(package! benchmark-init)
+
 (package! flycheck-pos-tip)
 (package! open-junk-file)
 

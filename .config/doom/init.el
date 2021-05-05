@@ -26,6 +26,11 @@
         (when (if ll (pop ll) "1"))
         (docstring (if ll (pop ll) nil)))
     (list obsolete-name current-name when docstring)))
+
+(when doom-debug-p
+  (require 'benchmark-init)
+  (add-hook 'doom-first-input-hook #'benchmark-init/deactivate))
+
 (doom! :input
        ;;chinese
        ;;japanese
