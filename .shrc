@@ -35,8 +35,8 @@ else
     esac
 fi
 
-if [ -d "$HOME/.local/share/binaryninja/python" ]; then
-    export PYTHONPATH="${PYTHONPATH:+"$PYTHONPATH:"}$HOME/.local/share/binaryninja/python"
+if [ -d "$HOME/.local/share/binaryninja" ]; then
+    export PYTHONPATH="${PYTHONPATH:+"$PYTHONPATH:"}$HOME/.local/share/binaryninja/python:$HOME/.local/share/binaryninja/python3"
 fi
 
 if [ -d "$HOME/.local/share/binaryninja/plugins" ]; then
