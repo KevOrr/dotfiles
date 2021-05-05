@@ -6,7 +6,7 @@
     (`(,sym . ,rest) `(setq ,sym (setq-all ,val ,@rest)))))
 
 (load! "exwm.el")
-(load! "smartparens.el")
+(load! "lisp.el")
 (load! "autodpi.el")
 (load! "org-setup.el")
 

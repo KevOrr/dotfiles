@@ -1,4 +1,11 @@
-;;; ~/.config/doom/smartparens.el -*- lexical-binding: t; -*-
+;;; ~/.config/doom/lisp.el -*- lexical-binding: t; -*-
+
+;; (use-package! evil-cleverparens
+;;   :defer t)
+
+(add-hook! (emacs-lisp-mode lisp-mode clojure-mode)
+           #'evil-cleverparens-mode
+           #'smartparens-strict-mode)
 
 (defun +private/open-below-sexp-or-line ()
   (interactive)
