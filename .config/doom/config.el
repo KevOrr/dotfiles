@@ -76,6 +76,9 @@
 
 (setq-hook! 'haskell-mode-hook +format-with :none)
 
+(defun +private/start-gnome-control-center (&optional panel)
+  (apply #'start-process "gnome-control-center" nil "gnome-control-center" panel))
+
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
       :desc "M-x" "<f20>" #'counsel-M-x
@@ -83,7 +86,17 @@
       (:prefix ("a" . "applications")
        :desc "Launch application" "a" #'counsel-linux-app
        :desc "List processes" "p" #'list-processes
-       :desc "Run screen layout" "s" #'+private/run-screen-layout)
+       :desc "Run screen layout" "l" #'+private/run-screen-layout
+       (:prefix ("s" . "settings")
+        :desc "Settings" "s" #'+private/start-gnome-control-center
+        :desc "Wi-Fi" "w" (cmd! (+private/start-gnome-control-center "wifi"))
+        :desc "Bluetooth" "b" (cmd! (+private/start-gnome-control-center "bluetooth"))
+        :desc "Network" "n" (cmd! (+private/start-gnome-control-center "network"))
+        :desc "Power" "p" (cmd! (+private/start-gnome-control-center "power"))
+        :desc "Displays" "d" (cmd! (+private/start-gnome-control-center "display"))
+        :desc "Printers" "P" (cmd! (+private/start-gnome-control-center "printers"))
+        :desc "Date & Time" "t" (cmd! (+private/start-gnome-control-center "datetime"))))
+
 
       ;; Notes
       (:prefix "n"
