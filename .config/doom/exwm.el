@@ -13,8 +13,8 @@
 (defun +private/run-screen-layout ()
   (interactive)
   (ivy-read "Choose screen layout from ~/.screenlayout: "
-            (remove-if (lambda (s) (member s '("." "..")))
-                       (directory-files "~/.screenlayout/"))
+            (cl-remove-if (lambda (s) (member s '("." "..")))
+                          (directory-files "~/.screenlayout/"))
             :require-match t
             :action '(0
                       ("o" (lambda (f) (call-process (concat "~/.screenlayout/" f) nil 0)) "run")

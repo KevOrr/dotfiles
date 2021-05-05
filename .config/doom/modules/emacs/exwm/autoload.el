@@ -5,16 +5,16 @@
   "Prompt for `+exwm/app-launcher'")
 
 (defun +exwm//flatenum (i ls)
-  (loop for i from i
-        for l in ls
-        append (list i l)))
+  (cl-loop for i from i
+           for l in ls
+           append (list i l)))
 
 ;;;###autoload
 (defun +exwm/update-randr ()
   (let ((exwm--randr-displays (split-string
                                (shell-command-to-string
                                 "xrandr | grep ' connected' | cut -d' ' -f1 "))))
-    (setq exwm-workspace-number (list-length exwm--randr-displays))
+    (setq exwm-workspace-number (cl-list-length exwm--randr-displays))
     (setq exwm-randr-workspace-monitor-plist (+exwm//flatenum 0 exwm--randr-displays))))
 
 
