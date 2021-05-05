@@ -9,6 +9,7 @@
 (load! "lisp.el")
 (load! "autodpi.el")
 (load! "org-setup.el")
+(load! "coq.el")
 
 (after! magit
   (magit-wip-mode +1))
@@ -90,9 +91,6 @@
                    (java-mode . "java")
                    (other . "bsd"))
  coq-compile-before-require t
- coq-compiler (expand-file-name "~/.opam/coq8.11/bin/coqc")
- coq-prog-name (expand-file-name "~/.opam/coq8.11/bin/coqtop")
- coq-dependency-analyzer (expand-file-name "~/.opam/coq8.11/bin/coqdep")
  custom-safe-themes '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
