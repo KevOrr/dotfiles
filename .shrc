@@ -86,6 +86,8 @@ alias o='xdg-open'
 alias c=clear
 alias clip='xclip -selection clipboard'
 
+alias sudo="sudo "
+
 alias sc="sudo systemctl"
 alias scu="systemctl --user"
 alias jc="sudo journalctl"
