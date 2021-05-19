@@ -56,7 +56,7 @@
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; (pretty-code +iosevka)       ; replace bits of code with pretty symbols
-       tabs              ; an tab bar for Emacs
+       ;; tabs              ; an tab bar for Emacs
        treemacs ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
@@ -74,7 +74,7 @@
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       parinfer          ; turn lisp into python, sort of
+       ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
@@ -121,7 +121,7 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :lang
-       agda              ; types of types of types of types...
+       (agda +local)              ; types of types of types of types...
        cc                ; C/C++/Obj-C madness
        clojure           ; java with a lisp
        common-lisp       ; if you've seen one lisp, you've seen them all
@@ -138,7 +138,7 @@
        fsharp           ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;(go +lsp)         ; the hipster dialect
-       (haskell +dante)  ; a language that's lazier than I am
+       (haskell +lsp)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        idris             ;
        json              ; At least it ain't XML
@@ -166,7 +166,7 @@
         +present         ; using org-mode for presentations
         +roam)
        ;;perl              ; write code no one else can comprehend
-       ;;php               ; perl's insecure younger brother
+       php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python +cython +pyenv +lsp +pyright +poetry)            ; beautiful is better than ugly
