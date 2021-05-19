@@ -122,6 +122,10 @@
  doom-theme 'doom-one
  enable-local-variables t
 
+ ;; completion
+ company-idle-delay 0.05
+ company-minimum-prefix-length 0
+
  ;; t was buggy
  posframe-mouse-banish nil
 
