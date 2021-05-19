@@ -120,6 +120,7 @@
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
  doom-theme 'doom-one
+ enable-local-variables t
 
  ;; t was buggy
  posframe-mouse-banish nil

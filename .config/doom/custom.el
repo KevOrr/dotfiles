@@ -4,7 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((cider-clojure-cli-global-options "-A:capstone")
+   '((+format-with . :none)
+     (flycheck-clang-language-standard . c++20)
+     (flycheck-gcc-language-standard . c++20)
+     (cider-clojure-cli-global-options "-A:capstone")
      (cider-figwheel-main-default-options . ":dev")
      (cider-default-cljs-repl . figwheel-main)
      (cider-clojure-cli-global-options . "-A:dev")
