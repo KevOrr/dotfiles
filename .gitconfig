@@ -14,3 +14,5 @@
         default = current
 [pull]
         rebase = merges
+[diff]
+	algorithm = patience
