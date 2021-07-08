@@ -21,6 +21,13 @@
 ;;   (run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
 ;;   (+workspace/display))
 
+(after! lsp-mode
+  (custom-set-faces
+   '(lsp-headerline-breadcrumb-path-hint-face ((t (:underline nil :inherit lsp-headerline-breadcrumb-path-face))) t)
+   '(lsp-headerline-breadcrumb-symbols-hint-face ((t (:underline nil :inherit lsp-headerline-breadcrumb-symbols-face))) t)
+   '(lsp-lsp-flycheck-info-unnecessary-face ((t (:foreground "dim gray" :underline nil))) t)
+   ))
+
 (after! magit
   (magit-wip-mode +1))
 
@@ -45,6 +52,8 @@
   :load-path (lambda () (concat doom-local-dir "straight/repos/emacs-application-framework"))
   :hook (eaf-mode . doom-mark-buffer-as-real-h))
 
+(use-package! unibeautify)
+
 (defun +private/find-junk-file ()
   (interactive)
   (let ((file (format-time-string open-junk-file-format (current-time))))
@@ -57,27 +66,43 @@
 (use-package! format-all
   :defer t
   :config
+
+  (define-format-all-formatter yapf
+    (:executable "yapf")
+    (:install "pip install yapf")
+    (:modes python-mode)
+    (:format (format-all--buffer-easy executable )))
+
   (define-format-all-formatter ormolu
     (:executable "ormolu")
     (:install "cabal install ormolu")
-    (:languages "Haskell" "Literate Haskell")
+    (:modes "Haskell" "Literate Haskell")
     (:format (format-all--buffer-easy executable)))
 
   (define-format-all-formatter formolu
     (:executable "formolu")
     (:install "cabal install formolu")
-    (:languages "Haskell" "Literate Haskell")
+    (:modes "Haskell" "Literate Haskell")
     (:format (format-all--buffer-easy executable)))
 
   (setq-default format-all-formatters
                 '(("Python" yapf)
                   ("Haskell" formolu)
-                  )))
+                  ))
 
-(setq-hook! 'haskell-mode-hook +format-with :none)
+  (setq-hook! 'haskell-mode-hook +format-with :none))
 
-(defun +private/start-gnome-control-center (&optional panel)
-  (apply #'start-process "gnome-control-center" nil "gnome-control-center" panel))
+(defun +private/start-gnome-control-center (&rest panel-and-args)
+  (interactive)
+  (apply #'start-process "gnome-control-center" nil "gnome-control-center"
+         panel-and-args))
+
+(defun +private/start-gnome-control-center (&optional panel &rest args)
+  (interactive)
+  (apply #'start-process "gnome-control-center" nil "gnome-control-center"
+         (if panel
+             (list* panel args)
+           args)))
 
 (map! :leader
       :desc "M-x" "SPC" #'counsel-M-x
@@ -116,15 +141,15 @@
 (after! vterm
   (evil-define-key 'motion vterm-mode-map [remap evil-paste-after] 'vterm-yank))
 
-(setq
+(setq-default
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
  doom-theme 'doom-one
- enable-local-variables t
+ enable-local-variables :safe
 
  ;; completion
- company-idle-delay 0.05
- company-minimum-prefix-length 0
+ company-idle-delay 0.5
+ company-minimum-prefix-length 2
 
  ;; t was buggy
  posframe-mouse-banish nil
@@ -152,6 +177,10 @@
  ;; proof-three-window-enable nil
  ;; proof-three-window-mode-policy 'hybrid
  flycheck-ghc-args '("-Wall" "-Wmissing-exported-signatures" "-Wcompat" "-Widentities"
-                     "-Wredundant-constraints" "-Wmissed-specialisations"))
+                     "-Wredundant-constraints" "-Wmissed-specialisations")
+ flycheck-error-list-minimum-level 'warning
+ flycheck-navigation-minimum-level 'warning
+ doom-modeline-checker-simple-format nil
+ )
 
 (load! "config.local.el" nil t)
