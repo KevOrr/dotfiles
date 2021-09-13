@@ -20,7 +20,12 @@
      (gac-automatically-push-p . t)
      (+org-roam-open-buffer-on-find-file)
      (+org-roam-open-buffer-on-find-file . t)))
- '(warning-suppress-types '((before-save-hook) (before-save-hook) (:warning))))
+ '(warning-suppress-types
+   '(((undo discard-info))
+     ((undo discard-info))
+     (before-save-hook)
+     (before-save-hook)
+     (:warning))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
