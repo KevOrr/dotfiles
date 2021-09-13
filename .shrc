@@ -32,6 +32,10 @@ else
     esac
 fi
 
+if [ -d "$HOME/.local/share/python-overrides" ]; then
+    export PYTHONPATH="${PYTHONPATH:+"$PYTHONPATH:"}$HOME/.local/share/python-overrides"
+fi
+
 if [ -d "$HOME/.local/share/binaryninja" ]; then
     export PYTHONPATH="${PYTHONPATH:+"$PYTHONPATH:"}$HOME/.local/share/binaryninja/python:$HOME/.local/share/binaryninja/python3"
 fi
