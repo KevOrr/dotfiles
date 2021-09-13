@@ -11,7 +11,7 @@
 (package! org-ref)
 (package! ebib)
 (package! org-roam-bibtex)
-(package! org-roam-server)
+;;(package! org-roam-server)
 (package! ivy-bibtex)
 
 ;; lisp

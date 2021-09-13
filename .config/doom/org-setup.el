@@ -2,7 +2,7 @@
 
 (require 's)
 
-(use-package! org-roam-server)
+;;(use-package! org-roam-server)
 
 (after! org
   (require 'org-ref)
