@@ -8,6 +8,8 @@
 ;; If you change your OPAM installation by e.g. adding more switches, then
 ;; run M-x coq-update-opam-switches and coq-change-compiler will show the updated set of switches.
 
+(require 'dash)
+
 (defun opam-installed-switches ()
   "Get a list of all installed OPAM switches."
   (process-lines "opam" "switch" "--safe" "list" "--short"))
