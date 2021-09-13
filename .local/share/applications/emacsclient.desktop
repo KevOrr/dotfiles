@@ -10,4 +10,3 @@ Categories=Development;TextEditor;
 StartupWMClass=Emacs
 Keywords=Text;Editor;
 MimeType=x-scheme-handler/org-protocol
-NoDisplay=true
