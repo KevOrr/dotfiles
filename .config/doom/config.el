@@ -54,6 +54,8 @@
 
 (use-package! unibeautify)
 
+(use-package! idris2-mode)
+
 (defun +private/find-junk-file ()
   (interactive)
   (let ((file (format-time-string open-junk-file-format (current-time))))

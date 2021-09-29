@@ -27,3 +27,7 @@
 ;; unibeautify
 (package! unibeautify
   :recipe (:host github :repo "Unibeautify/emacs"))
+
+;; Idris 2
+(package! idris2-mode
+  :recipe (:host github :repo "redfish64/idris2-mode"))

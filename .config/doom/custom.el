@@ -21,7 +21,8 @@
      (+org-roam-open-buffer-on-find-file)
      (+org-roam-open-buffer-on-find-file . t)))
  '(warning-suppress-types
-   '(((undo discard-info))
+   '((idris2-load-file-success-hook)
+     ((undo discard-info))
      ((undo discard-info))
      (before-save-hook)
      (before-save-hook)
