@@ -172,6 +172,7 @@
  custom-unlispify-remove-prefixes t
  evil-want-Y-yank-to-eol nil
  flycheck-pylintrc (expand-file-name "~/.pylintrc")
+ lsp-pyright-diagnostic-mode "workspace"
 
  processing-location (expand-file-name "~/.local/share/processing/processing-java")
  processing-application-dir (expand-file-name "~/.local/share/processing")

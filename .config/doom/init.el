@@ -14,6 +14,10 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+(setq-default
+ lsp-pyright-multi-root nil
+ )
+
 (define-advice define-obsolete-function-alias (:filter-args (ll) fix-obsolete)
   (let ((obsolete-name (pop ll))
         (current-name (pop ll))
