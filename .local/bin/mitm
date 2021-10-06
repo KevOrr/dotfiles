@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+PREFIX=~/.mitmproxy
+GUEST_PREFIX=/home/mitmproxy/.mitmproxy
+CERT=${PREFIX}/mitmproxy-ca-cert.pem
+GUEST_SSLKEYLOGFILE=${GUEST_PREFIX}/sslkeylogfile.txt
+
+PORT=8080
+
+function add-cert {
+    sudo trust anchor "${CERT}"
+}
+
+function remove-cert {
+    sudo trust anchor --remove "${CERT}"
+}
+
+function start-mitm {
+    docker run --rm -it \
+        -v "${PREFIX}:${GUEST_PREFIX}" \
+        -e SSLKEYLOGFILE="${GUEST_SSLKEYLOGFILE}" \
+        -p "${PORT}":8080 \
+        mitmproxy/mitmproxy
+}
+
+function add-cert-when-available {
+    while ! [ -e "${CERT}" ]; do
+        sleep 0.1
+    done
+    add-cert
+}
+
+function cleanup {
+    remove-cert
+}
+
+trap cleanup EXIT
+
+remove-cert
+add-cert-when-available &
+start-mitm
