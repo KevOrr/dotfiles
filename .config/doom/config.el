@@ -148,6 +148,7 @@
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
  doom-theme 'doom-one
  enable-local-variables :safe
+ window-divider-default-right-width 4
 
  ;; completion
  company-idle-delay 0.5
