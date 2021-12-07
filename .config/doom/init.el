@@ -61,7 +61,7 @@
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;; (pretty-code +iosevka)       ; replace bits of code with pretty symbols
        ;; tabs              ; an tab bar for Emacs
-       treemacs ; a project drawer, like neotree but cooler
+       (treemacs +lsp) ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -99,7 +99,7 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       (spell +aspell)     ; tasing you for misspelling mispelling
+       (spell +flyspell +aspell)     ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
