@@ -72,7 +72,11 @@
     (when (proof-shell-available-p)
       (proof-shell-exit))))
 
-(coq-change-compiler (cdr (assoc opam-current-switch coq-bin-dirs-alist)))
+(if-let ((switch
+          (car (--filter (string-prefix-p (concat opam-current-switch " (coq-") (car it))
+                         coq-bin-dirs-alist))))
+    (coq-change-compiler (cdr switch))
+  (warn "Current opam switch %s not found" opam-current-switch))
 
 (use-package! company-coq
   :defer t
