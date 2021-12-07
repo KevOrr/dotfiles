@@ -143,6 +143,18 @@
 (after! vterm
   (evil-define-key 'motion vterm-mode-map [remap evil-paste-after] 'vterm-yank))
 
+(set-formatter!
+  'clang-format
+  '("clang-format"
+    ("-assume-filename=%S" (or buffer-file-name mode-result ""))
+    "-style=file")
+  :modes
+  '((c-mode ".c")
+    (c++-mode ".cpp")
+    (java-mode ".java")
+    (objc-mode ".m")
+    (protobuf-mode ".proto")))
+
 (setq-default
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
