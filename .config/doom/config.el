@@ -143,6 +143,13 @@
 (after! vterm
   (evil-define-key 'motion vterm-mode-map [remap evil-paste-after] 'vterm-yank))
 
+(use-package! agda2-mode
+  :config
+  (custom-set-faces
+   '(agda2-highlight-unsolved-meta-face ((t (:underline (:style wave :color "red")))))
+   '(agda2-highlight-unsolved-constraint-face ((t (:underline (:style wave :color "orange")))))
+   ))
+
 (set-formatter!
   'clang-format
   '("clang-format"
