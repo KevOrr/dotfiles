@@ -61,7 +61,7 @@
   (interactive)
   (let ((file (format-time-string open-junk-file-format (current-time))))
     (let ((default-directory (file-name-directory file)))
-      (counsel-find-file (file-name-nondirectory file)))))
+      (find-file (file-name-nondirectory file)))))
 
 (map! :map ivy-minibuffer-map
       "C-h" #'ivy-backward-kill-word)
@@ -108,8 +108,8 @@
            args)))
 
 (map! :leader
-      :desc "M-x" "SPC" #'counsel-M-x
-      :desc "M-x" "<f20>" #'counsel-M-x
+      :desc "M-x" "SPC" 'execute-extended-command
+      :desc "M-x" "<f20>" 'execute-extended-command
 
       (:prefix ("a" . "applications")
        :desc "Launch application" "a" #'counsel-linux-app
