@@ -12,7 +12,7 @@
 (package! ebib)
 (package! org-roam-bibtex)
 ;;(package! org-roam-server)
-(package! ivy-bibtex)
+;; (package! ivy-bibtex)
 
 ;; lisp
 (package! evil-cleverparens)
