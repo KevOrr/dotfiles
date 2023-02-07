@@ -10,6 +10,7 @@
 (load! "autodpi.el")
 (load! "org-setup.el")
 (load! "coq.el")
+(load! "git.el")
 
 ;; Uncomment in order to "permanently" show workspaces list in minibuffer
 ;; (after! persp-mode
