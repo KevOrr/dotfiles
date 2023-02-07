@@ -95,6 +95,10 @@
 
   (setq-hook! 'haskell-mode-hook +format-with :none))
 
+(setq-default
+ haskell-interactive-popup-errors nil
+ haskell-process-suggest-remove-import-lines nil)
+
 (defun +private/start-gnome-control-center (&rest panel-and-args)
   (interactive)
   (apply #'start-process "gnome-control-center" nil "gnome-control-center"
