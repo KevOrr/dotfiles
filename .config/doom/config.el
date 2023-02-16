@@ -115,7 +115,7 @@
       :desc "M-x" "SPC" 'execute-extended-command
       :desc "M-x" "<f20>" 'execute-extended-command
 
-      (:prefix ("a" . "applications")
+      (:prefix ("A" . "applications")
        :desc "Launch application" "a" #'counsel-linux-app
        :desc "List processes" "p" #'list-processes
        :desc "Run screen layout" "l" #'+private/run-screen-layout
