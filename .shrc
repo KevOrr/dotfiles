@@ -64,13 +64,34 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # SETTINGS
 
 alias gdb='gdb --quiet'
-alias cp='cp --reflink=auto'
+
+# Apparently MacOS doesn't support --reflink
+function _cp_supports_reflink {
+    local f=$(mktemp)
+    local g=$(mktemp)
+    local ret
+    if cp --reflink=auto "$f" "$g" >/dev/null 2>&1; then
+        ret=0
+    else
+        ret=1
+    fi
+    rm "$f" "$g"
+    return "$ret"
+}
 
 if [ $UID -eq 0 ]; then
     alias rm='rm -i'
-    alias cp='cp -i --reflink=auto'
+    if _cp_supports_reflink; then
+        alias cp='cp -i --reflink=auto'
+    else
+        alias cp='cp -i'
+    fi
     alias mv='mv -i'
+elif _cp_supports_reflink; then
+    alias cp='cp --reflink=auto'
 fi
+
+unset _cp_supports_reflink
 
 
 # SHORT ALIASES
