@@ -70,7 +70,7 @@ ZSH_DISABLE_COMPFIX=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git exercism)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,4 +104,8 @@ fi
 
 if [ -f ~/.opam/opam-init/init.zsh ]; then
     source ~/.opam/opam-init/init.zsh
+fi
+
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
 fi
