@@ -168,6 +168,12 @@
     (objc-mode ".m")
     (protobuf-mode ".proto")))
 
+(use-package! agda2-mode
+  :config
+  (add-to-list
+   'auto-mode-alist
+   '("\\.lagda.md\\'" . agda2-mode)))
+
 (setq-default
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
