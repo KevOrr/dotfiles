@@ -177,6 +177,9 @@
 (setq-default
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
+ ;; see [[this][https://github.com/cpitclaudel/monospacifier]] amazing project
+ ;; for the below font
+ doom-symbol-font (font-spec :family "Symbola monospacified for Source Code Pro")
  doom-theme 'doom-one
  enable-local-variables :safe
  window-divider-default-right-width 4
