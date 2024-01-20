@@ -195,8 +195,6 @@
  +treemacs-git-mode 'deferred
  ivy-magic-tilde nil
  tramp-use-ssh-controlmaster-options nil
- browse-url-browser-function 'browse-url-generic
- browse-url-generic-program "xdg-open"
  c-basic-offset 4
  c-default-style '((c-mode . "bsd")
                    (c++-mode . "bsd")
