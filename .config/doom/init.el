@@ -31,10 +31,6 @@
         (docstring (if ll (pop ll) nil)))
     (list obsolete-name current-name when docstring)))
 
-;(when doom-debug-p
-;  (require 'benchmark-init)
-;  (add-hook 'doom-first-input-hook #'benchmark-init/deactivate))
-
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;;chinese
@@ -184,7 +180,7 @@
         ;;+pandoc          ; export-with-pandoc support
         ;;+pomodoro        ; be fruitful with the tomato technique
         +present)         ; using org-mode for presentations
-        ;; +roam
+       ;; +roam
        ;;perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
