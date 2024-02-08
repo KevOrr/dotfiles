@@ -188,6 +188,9 @@
  company-idle-delay 0.5
  company-minimum-prefix-length 2
 
+ ;; magit
+ magit-log-color-graph-limit 1000
+
  ;; t was buggy
  posframe-mouse-banish nil
 
