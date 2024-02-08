@@ -31,3 +31,6 @@
 ;; Idris 2
 (package! idris2-mode
   :recipe (:host github :repo "redfish64/idris2-mode"))
+
+;; Just
+(package! just-mode)
