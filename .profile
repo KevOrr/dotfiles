@@ -11,14 +11,6 @@ umask 077
 # set PATH so it includes user's private bin if it exists
 export PATH="$HOME/.local/bin${PATH:+:$PATH}"
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-
 if [ -x /usr/bin/emacsclient ]; then
     export EDITOR='/usr/bin/emacsclient'
 elif [ -x /usr/bin/emacs ]; then
@@ -34,10 +26,25 @@ export VISUAL="$EDITOR"
 
 eval `ssh-agent`
 
-# opam configuration
-if [ -r ~/.opam/opam-init/init.sh ]; then
-   . ~/.opam/opam-init/init.sh >/dev/null 2> /dev/null
+# ghcup
+if [[ -d ~/.ghcup ]]; then
+  export PATH=$HOME/.ghcup/bin:$PATH
 fi
 
-if [ -e /home/kevin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/kevin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+# opam
+if type opam &>/dev/null; then
+  if [[ -r ~/.local/share/opam/opam-init/init.zsh ]]; then
+    source ~/.local/share/opam/opam-init/init.zsh &>/dev/null
+  fi
+fi
 
+if [ -z "$XDG_CONFIG_HOME" ]; then
+    export XDG_CONFIG_HOME=$HOME/.config
+    export XDG_CACHE_HOME=$HOME/.cache
+    export XDG_DATA_HOME=$HOME/.local/share
+    export XDG_STATE_HOME=$HOME/.local/state
+fi
+
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
