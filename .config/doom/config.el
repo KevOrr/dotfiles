@@ -66,35 +66,6 @@
 (map! :map ivy-minibuffer-map
       "C-h" #'ivy-backward-kill-word)
 
-(use-package! format-all
-  :defer t
-  :config
-
-  (define-format-all-formatter yapf
-    (:executable "yapf")
-    (:install "pip install yapf")
-    (:modes python-mode)
-    (:format (format-all--buffer-easy executable )))
-
-  (define-format-all-formatter ormolu
-    (:executable "ormolu")
-    (:install "cabal install ormolu")
-    (:modes "Haskell" "Literate Haskell")
-    (:format (format-all--buffer-easy executable)))
-
-  (define-format-all-formatter formolu
-    (:executable "formolu")
-    (:install "cabal install formolu")
-    (:modes "Haskell" "Literate Haskell")
-    (:format (format-all--buffer-easy executable)))
-
-  (setq-default format-all-formatters
-                '(("Python" yapf)
-                  ("Haskell" formolu)
-                  ))
-
-  (setq-hook! 'haskell-mode-hook +format-with :none))
-
 (setq-default
  haskell-interactive-popup-errors nil
  haskell-process-suggest-remove-import-lines nil)
