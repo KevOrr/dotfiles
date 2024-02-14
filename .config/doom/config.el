@@ -109,8 +109,8 @@
 
       ;; Windows
       (:prefix "w"
-       "/" #'evil-window-vsplit
-       "-" #'evil-window-split))
+       :desc "Split window left/right" "/" #'evil-window-vsplit
+       :desc "Split window top/bottom" "-" #'evil-window-split))
 
 (after! vterm
   (evil-define-key 'motion vterm-mode-map [remap evil-paste-after] 'vterm-yank))
