@@ -5,7 +5,6 @@
 
 ;; util
 (package! flycheck-pos-tip)
-(package! open-junk-file)
 
 ;; org
 (package! org-ref)

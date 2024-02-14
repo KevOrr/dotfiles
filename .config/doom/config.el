@@ -32,10 +32,6 @@
 (after! magit
   (magit-wip-mode +1))
 
-(use-package! open-junk-file
-  :config
-  (setq open-junk-file-format "~/dropbox/junk/%Y/%m/%d-%H%M%S."))
-
 (use-package! git-auto-commit-mode
   :defer t
   :init
@@ -59,9 +55,9 @@
 
 (defun +private/find-junk-file ()
   (interactive)
-  (let ((file (format-time-string open-junk-file-format (current-time))))
+  (let ((file (format-time-string "~/dropbox/junk/%Y/%m/" (current-time))))
     (let ((default-directory (file-name-directory file)))
-      (find-file (file-name-nondirectory file)))))
+      (find-file (read-file-name "Create or open junk file: " default-directory)))))
 
 (map! :map ivy-minibuffer-map
       "C-h" #'ivy-backward-kill-word)
@@ -109,7 +105,7 @@
 
       ;; Files
       (:prefix "f"
-       "J" #'+private/find-junk-file)
+       :desc "New junk file" "J" #'+private/find-junk-file)
 
       ;; Windows
       (:prefix "w"
