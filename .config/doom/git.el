@@ -1,7 +1,7 @@
 ;;; git.el -*- lexical-binding: t; -*-
 
-(require 'magit)
 (require 'transient)
+(require 'magit)
 
 ;;; difftastic
 ;;; magit <-> difftastic config code from https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
