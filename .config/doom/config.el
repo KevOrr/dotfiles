@@ -156,7 +156,7 @@
  company-minimum-prefix-length 2
 
  ;; magit
- magit-log-color-graph-limit 1000
+ magit-log-color-graph-limit 5000
 
  ;; t was buggy
  posframe-mouse-banish nil
