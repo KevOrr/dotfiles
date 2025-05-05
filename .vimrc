@@ -1,4 +1,4 @@
-call pathogen#infect()
+"call pathogen#infect()
 
 set number
 highlight LineNr term=bold cterm=NONE ctermfg=Green ctermbg=NONE gui=NONE guifg=Green guibg=NONE
