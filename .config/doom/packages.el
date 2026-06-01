@@ -5,6 +5,7 @@
 
 ;; util
 (package! flycheck-pos-tip)
+(package! breadcrumb)
 
 ;; org
 (package! org-ref)

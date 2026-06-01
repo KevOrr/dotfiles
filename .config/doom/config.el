@@ -23,11 +23,27 @@
 ;;   (+workspace/display))
 
 (after! lsp-mode
+  (setq lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-enable-diagnostics nil)
   (custom-set-faces
    '(lsp-headerline-breadcrumb-path-hint-face ((t (:underline nil :inherit lsp-headerline-breadcrumb-path-face))) t)
    '(lsp-headerline-breadcrumb-symbols-hint-face ((t (:underline nil :inherit lsp-headerline-breadcrumb-symbols-face))) t)
    '(lsp-lsp-flycheck-info-unnecessary-face ((t (:foreground "dim gray" :underline nil))) t)
    ))
+
+(use-package! breadcrumb
+  :hook ((prog-mode text-mode conf-mode) . breadcrumb-local-mode)
+  :config
+  (add-hook 'lsp-managed-mode-hook
+            (lambda ()
+              (if lsp-managed-mode
+                  (progn
+                    ;; LSP buffer: hand the header line to lsp-mode
+                    (breadcrumb-local-mode -1)
+                    (when lsp-headerline-breadcrumb-enable
+                      (lsp-headerline-breadcrumb-mode +1)))
+                ;; LSP detached: give it back to breadcrumb
+                (breadcrumb-local-mode +1)))))
 
 (after! magit
   (magit-wip-mode +1))
