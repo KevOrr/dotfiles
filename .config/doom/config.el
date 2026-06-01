@@ -12,6 +12,13 @@
 (load! "coq.el")
 (load! "git.el")
 
+;; Redirect Customize away from the tracked custom.el so machine state
+;; (org-agenda-files, package-selected-packages, ...) never lands in
+;; source control. Cross-machine globals are set explicitly below.
+(setq custom-file (expand-file-name "custom-local.el" doom-private-dir))
+(when (file-exists-p custom-file)
+  (load custom-file 'noerror))
+
 ;; Uncomment in order to "permanently" show workspaces list in minibuffer
 ;; (after! persp-mode
 ;;   (defun display-workspaces-in-minibuffer ()
@@ -210,5 +217,24 @@
  flycheck-navigation-minimum-level 'warning
  doom-modeline-checker-simple-format nil
  )
+
+(pushnew! safe-local-variable-values
+          '(flycheck-clang-language-standard . c++20)
+          '(+format-with . yapf)
+          '(gac-automatically-add-new-files-p)
+          '(gac-automatically-add-new-files-p . t)
+          '(gac-automatically-push-p)
+          '(gac-automatically-push-p . t)
+          '(+org-roam-open-buffer-on-find-file)
+          '(+org-roam-open-buffer-on-find-file . t))
+
+(custom-theme-set-faces
+ 'user
+ '(proof-locked-face ((t (:background "gray10"))))
+ '(slime-highlight-edits-face ((t (:background "gray10"))))
+ '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light)))))
+
+(put 'narrow-to-region 'disabled nil)
+(put 'list-threads 'disabled nil)
 
 (load! "config.local.el" nil t)
