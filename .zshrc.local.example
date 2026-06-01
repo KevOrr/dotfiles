@@ -1,0 +1,5 @@
+# Machine-local zsh config. Sourced at the end of ~/.zshrc. Use this for
+# zsh-only host-specific bits (e.g. completion sources). Shell-agnostic
+# config belongs in ~/.shrc.local instead.
+#
+# This file is gitignored. Copy or symlink to ~/.zshrc.local on each machine.

@@ -1,0 +1,5 @@
+# Machine-local shell config. Sourced at the end of ~/.shrc (which is
+# shared between bash and zsh). Use this for host-specific PATH entries,
+# Mac-only / Linux-only blocks, secrets, and personal helper functions.
+#
+# This file is gitignored. Copy or symlink to ~/.shrc.local on each machine.

@@ -1,0 +1,5 @@
+.shrc.local
+.zshrc.local
+.gitconfig.local
+.config/doom/custom.el
+.config/doom/custom-local.el

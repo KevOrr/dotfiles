@@ -234,3 +234,5 @@ alias scu='systemctl --user'
 alias jcu='journalctl --user'
 
 alias db=dropbox-cli
+
+[ -r "$HOME/.shrc.local" ] && . "$HOME/.shrc.local"
