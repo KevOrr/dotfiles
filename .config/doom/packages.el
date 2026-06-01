@@ -19,6 +19,7 @@
 
 ;; git
 (package! git-auto-commit-mode)
+;; (package! magit-todos)
 
 ;; eaf
 (package! eaf

@@ -45,6 +45,11 @@
                 ;; LSP detached: give it back to breadcrumb
                 (breadcrumb-local-mode +1)))))
 
+(after! (:and org tex-mode)
+  (custom-theme-set-faces
+   'user
+   '(tex-verbatim ((t (:inherit 'org-verbatim))))))
+
 (after! magit
   (magit-wip-mode +1))
 
@@ -115,9 +120,9 @@
 
       ;; Notes
       (:prefix "n"
-       ;; org-journal
-       (:prefix "j"
-        :desc "Open Journal" "o" (cmd! (org-journal-new-entry 0))))
+               ;; org-journal
+               (:prefix "j"
+                :desc "Open Journal" "o" (cmd! (org-journal-new-entry 0))))
 
       ;; Files
       (:prefix "f"
@@ -160,6 +165,7 @@
 (setq-default
  ;; doom
  doom-font (font-spec :family "Source Code Pro" :size (+private/desired-font-pt))
+ doom-serif-font doom-font
  ;; see [[this][https://github.com/cpitclaudel/monospacifier]] amazing project
  ;; for the below font
  doom-symbol-font (font-spec :family "Symbola monospacified for Source Code Pro")
