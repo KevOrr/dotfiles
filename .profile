@@ -6,7 +6,7 @@
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-umask 077
+umask 002
 
 # set PATH so it includes user's private bin if it exists
 export PATH="$HOME/.local/bin${PATH:+:$PATH}"
@@ -47,4 +47,8 @@ fi
 
 if [ -x /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [ -r "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env"
 fi
