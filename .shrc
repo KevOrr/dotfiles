@@ -236,3 +236,29 @@ alias jcu='journalctl --user'
 alias db=dropbox-cli
 
 [ -r "$HOME/.shrc.local" ] && . "$HOME/.shrc.local"
+
+function podman-layers-du () {
+    if [ $# -ne 1 ]; then
+        cat >&2 <<'EOF'
+USAGE: podman-layers-du <IMAGE_ID>
+
+    Note: IMAGE_ID should be a fully-qualified image name (e.g. localhost/foo:latest)
+EOF
+        return 2
+    fi
+
+    img="$1"
+
+    case "$img" in
+         */*) ;;
+         *) echo "Warning: image doesn't appear to be a fully qualified image ID; skopeo may fail" >&2 ;;
+    esac
+
+    paste \
+      <(podman machine ssh skopeo inspect "containers-storage:$img" \
+          | jq -r '.LayersData[] | "\(.Size)\t\(.Digest)"' \
+          | numfmt --to=iec --field=1) \
+      <(podman machine ssh skopeo inspect --config "containers-storage:$img" \
+          | jq -r '.history[] | select(.empty_layer != true) | .created_by') \
+      | column -t -s $'\t'
+}
