@@ -129,6 +129,19 @@ if ! [ -e ~/.config/emacs/bin/doom ] && verify "Install Doom Emacs?"; then
     echo 'after the dotfiles checkout lands ~/.config/doom/.'
 fi
 
+if ! [ -d ~/.rustup ] && verify "Install rustup?"; then
+    doshow sh -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable"
+fi
+
+if ! type opam >/dev/null 2>&1 && verify "Install opam (OCaml)?"; then
+    doshow sh -c "curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh | sh"
+    echo "Run 'opam init' yourself when you're ready to configure a switch."
+fi
+
+if ! [ -d ~/.ghcup ] && verify "Install ghcup (Haskell)?"; then
+    doshow sh -c "curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh"
+fi
+
 if verify "Enable emacs.service?"; then
     doshow systemctl --user enable emacs.service
 fi
