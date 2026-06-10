@@ -1,3 +1,0 @@
-[submodule ".spacemacs.d/layers/monte/local/monte-emacs"]
-	path = .spacemacs.d/layers/monte/local/monte-emacs
-	url = git@github.com:kevorr/monte-emacs

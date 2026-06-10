@@ -117,8 +117,10 @@ if ! [ -e ~/peda ] && { [ -n "${install_ctf_tools}" ] || verify "Install PEDA?";
     doshow git clone https://github.com/longld/peda.git ~/peda
 fi
 
-if ! [ -e ~/.emacs.d ] && verify "Install Spacemacs?"; then
-    doshow git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d
+if ! [ -e ~/.config/emacs/bin/doom ] && verify "Install Doom Emacs?"; then
+    doshow git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+    echo 'Doom cloned. We will run `doom install` at the end of setup,'
+    echo 'after the dotfiles checkout lands ~/.config/doom/.'
 fi
 
 if verify "Enable emacs.service?"; then
@@ -198,3 +200,8 @@ fi
 
 doshow cd ~
 doshow git checkout .zshrc
+
+if [ -x ~/.config/emacs/bin/doom ]; then
+    echo "Running 'doom install' against ~/.config/doom/. This may take several minutes."
+    doshow ~/.config/emacs/bin/doom install
+fi
