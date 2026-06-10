@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Tested on Fedora Workstation 41+. GNOME desktop assumed for the gsettings block.
+
 set -e
 
 echo
@@ -54,7 +56,11 @@ function addpackage {
 if verify "Upgrade and install system packages?"; then
     if [ -e /etc/fedora-release ]; then
         distro=fedora
-        pkgs='git htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx'
+        pkgs='git htop mlocate nmap tmux vim vim-enhanced zsh gcc gdb libcxx
+              fd-find ripgrep fzf bat eza jq direnv
+              xclip wl-clipboard
+              aspell aspell-en
+              fontconfig'
     elif [ -e /etc/lsb-release ] && grep -i DISTRIB_ID /etc/lsb-release | grep -i ubuntu >/dev/null; then
         distro=ubuntu
         pkgs='git htop mlocate nmap tmux vim zsh gcc gdb libc++'
@@ -62,13 +68,13 @@ if verify "Upgrade and install system packages?"; then
 
     addpackage Chromium chromium chromium
     case $distro in
-        fedora) rpm -qi gnome-shell >/dev/null && addpackage "chrome-gnome-shell gnome-tweak-tool" ;;
+        fedora) rpm -qi gnome-shell >/dev/null 2>&1 && addpackage "gnome-tweaks" "gnome-tweaks" "" ;;
         ubuntu) dpkg -l gnome-shell >/dev/null && addpackage "" "chrome-gnome-shell gnome-tweak-tool" ;;
     esac
     addpackage pavucontrol pavucontrol pavucontrol
     addpackage Emacs emacs emacs
-    addpackage ripgrep ripgrep "" # Ripgrep is not on ubuntu yet
     addpackage sbcl sbcl sbcl
+    addpackage "podman + skopeo" "podman skopeo" "podman skopeo"
     addpackage "CTF tools" "binwalk steghide john capstone "{"perl-Image-ExifTool","libimage-exiftool-perl"}
     install_ctf_tools=$package_added
 
@@ -86,7 +92,7 @@ if verify "Upgrade and install system packages?"; then
 
     if verify "Install python build dependencies?"; then
         case $distro in
-            fedora) doshow sudo dnf builddep python2 python3 ;;
+            fedora) doshow sudo dnf builddep python3 ;;
             ubuntu) doshow sudo apt build-dep python python3 ;;
         esac
     fi
